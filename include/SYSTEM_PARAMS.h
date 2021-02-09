@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef SYSTEM_PARAMS_H
-#define SYSTEM_PARAMS_H
+# define SYSTEM_PARAMS_H
 
 const double KBOLTZMN = 1.380648528;
 const double NUMKRIST_X = 2;

@@ -11,12 +11,13 @@
 /* ************************************************************************** */
 
 #ifndef HEADERS_H
-#define HEADERS_H
+# define HEADERS_H
 #include <iostream>
 #include <cstdlib>
 #include "SYSTEM_PARAMS.h"
 #include "GLOBAL_VARS.H"
 #include "GAS_CONSTANTS.h"
+
 
 /*-----------SPEED_GENERATION-------------*/
 inline double ran2(int *idum);

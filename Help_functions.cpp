@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HEADERS.h"
+#include "include/HEADERS.h"
 
 void quickSort(double *array, int length) {
     if (length <= 1){

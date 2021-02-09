@@ -10,16 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HEADERS.h"
+#include "include/HEADERS.h"
 using namespace std;
 
 int main()
 {
     //----Speed-generating----------------//
-    newSpeedGenerate();
+//    newSpeedGenerate();
 
     //----Molecule-position-generating----//
-    moleculePositionGenerator();
+//    moleculePositionGenerator();
+
+    for(int i = 0; i < PARTICLE_NUMBER; i++){
+        printf("(%.8f; %.8f; %.8f)\n", coordx[i], coordy[i], coordz[i]);
+    }
 
 
     //printGraphics(270);

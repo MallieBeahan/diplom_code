@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   moya.c                                             :+:      :+:    :+:   */
+/*   GAS_CONSTANTS.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Alexandr <Alexandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/22 22:04:50 by Alexandr          #+#    #+#             */
-/*   Updated: 2021/01/31 20:05:30 by Alexandr         ###   ########.fr       */
+/*   Created: 2020/11/15 22:06:56 by Alexandr          #+#    #+#             */
+/*   Updated: 2020/11/15 23:05:31 by Alexandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef GLOBAL_VARS_H
-#define GLOBAL_VARS_H
+#ifndef GAS_CONSTANTS_H
+# define GAS_CONSTANTS_H
 
-double Vx[PARTICLE_NUMBER];
-double Vy[PARTICLE_NUMBER];
-double Vz[PARTICLE_NUMBER];
-double coordx[PARTICLE_NUMBER];
-double coordy[PARTICLE_NUMBER];
-double coordz[PARTICLE_NUMBER];
-double Fx[PARTICLE_NUMBER];
-double Fy[PARTICLE_NUMBER];
-double Fz[PARTICLE_NUMBER];
+const double KBOLTZMAN = 1.380648528;
+const double PI = 3.141592654;
+const double MASS = 46.517;
+const double START_TEMPERATURE = 10;
+const double SIGMA_Maxwell = sqrt((KBOLTZMAN*START_TEMPERATURE)/(MASS));
 
 #endif
