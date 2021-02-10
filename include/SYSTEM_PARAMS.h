@@ -13,12 +13,20 @@
 #ifndef SYSTEM_PARAMS_H
 # define SYSTEM_PARAMS_H
 
-const double KBOLTZMN = 1.380648528;
+const double NUMBER_OF_STEPS = 10; //Колличество шагов
+const double KBOLTZMN = 1.380648528; //Постоянная Больцмана
 const double NUMKRIST_X = 2;
 const double NUMKRIST_Y = NUMKRIST_X;
 const double NUMKRIST_Z = NUMKRIST_X;
 const int PARTICLE_NUMBER = NUMKRIST_X * NUMKRIST_Y * NUMKRIST_Z; // Примитивная кристалическая решетка (равномерное распределение по пространству) при ПГУ.
-const double FIRST_CALC_CONST = (3 * KBOLTZMN)/PARTICLE_NUMBER;
+const double FIRST_CALC_CONST = (3 * KBOLTZMN)/PARTICLE_NUMBER; // Константа
 const double REBROKR = 0.5;
+const double DELTA_T = 0.002; //Шаг интегрирования
+//double LX = NUMKRIST_X * REBROKR;
+//double LY = NUMKRIST_Y * REBROKR;
+//double LZ = NUMKRIST_Z * REBROKR;
+//double VOLUME = LX * LY * LZ;
+//bool PGU = false;
+const int STARTING_STEP = 0; //Начальный шаг
 
 #endif

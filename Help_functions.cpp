@@ -95,6 +95,7 @@ void printGraphics(GlobalVars globalVars, int numOfCuts){
     printModuloSpeed(globalVars, numOfCuts);
 }
 
+//Init start position molecules
 void moleculePositionGenerator(GlobalVars globalVars){
     int i = 0;
     for (int l = 0; l < NUMKRIST_X; l++) {
@@ -109,6 +110,8 @@ void moleculePositionGenerator(GlobalVars globalVars){
     }
 }
 
+
+//Memory allocating
 GlobalVars initGlobalVars(){
     GlobalVars globalVars;
     globalVars.Vx = new double[PARTICLE_NUMBER];
@@ -120,5 +123,6 @@ GlobalVars initGlobalVars(){
     globalVars.Fx = new double[PARTICLE_NUMBER];
     globalVars.Fy = new double[PARTICLE_NUMBER];
     globalVars.Fz = new double[PARTICLE_NUMBER];
+    globalVars.Epot = new double[PARTICLE_NUMBER];
     return globalVars;
 }

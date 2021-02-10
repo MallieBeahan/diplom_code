@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Main.cpp                                           :+:      :+:    :+:   */
+/*   Energy_calc.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Alexandr <Alexandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,21 +11,3 @@
 /* ************************************************************************** */
 
 #include "include/HEADERS.h"
-
-using namespace std;
-
-
-int main()
-{
-    //Декларация и инициализация структуры глобальных переменных.
-    GlobalVars globalVars = initGlobalVars();
-
-    //Генерация начального положения частиц.
-    moleculePositionGenerator(globalVars);
-
-    //Генерация скорости частиц.
-    newSpeedGenerate(globalVars);
-
-
-    return 0;
-}

@@ -14,9 +14,9 @@
 # define HEADERS_H
 #include <iostream>
 #include <cstdlib>
-#include "SYSTEM_PARAMS.h"
-#include "GAS_CONSTANTS.h"
 #include "GLOBAL_VARS.H"
+#include "GAS_CONSTANTS.h"
+#include "SYSTEM_PARAMS.h"
 
 /*-----------GLOBAL_VARS------------------*/
 GlobalVars initGlobalVars();
@@ -32,5 +32,13 @@ void printAverageSquareSpeed(GlobalVars globalVars, int numOfCuts);
 void printModuloSpeed(GlobalVars globalVars, int numOfCuts);
 void printGraphics(GlobalVars globalVars, int numOfCuts);
 void moleculePositionGenerator(GlobalVars globalVars);
+/*-----------VERLET_SCHEME----------------*/
+void verletScheme(GlobalVars globalVars);
+double lennardJonesPotentialCalc(double r);
+double lennardJonesForceCalc(double r);
+double *forceCalc(GlobalVars globalVars, int step);
+double *velocityCalc(GlobalVars globalVars, int i, double *F);
+/*-----------MATHEMATICAL_MODELLING-------*/
+void mathemathical_modelling(GlobalVars globalVars);
 
 #endif

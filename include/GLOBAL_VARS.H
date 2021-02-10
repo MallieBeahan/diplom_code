@@ -22,6 +22,7 @@ struct GlobalVars{
     double *Fx;
     double *Fy;
     double *Fz;
+    double *Epot;
 };
 
 #endif
