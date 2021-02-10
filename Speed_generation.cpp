@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "include/HEADERS.h"
+
 #define IM1 2147483563
 #define IM2 2147483399
 #define AM (1.0/IM1)
@@ -76,7 +77,7 @@ inline double ran2(int *idum){
     else return tempran;
 }
 
-void speedGenerateByDiplomCode(){
+void speedGenerateByDiplomCode(GlobalVars globalVars){
     double maxValue = 0.999999;
     double ksi1[PARTICLE_NUMBER];
     double ksi2[PARTICLE_NUMBER];
@@ -85,9 +86,9 @@ void speedGenerateByDiplomCode(){
         ksi1[i] = (0.000001 + (float)rand()) / (float)(RAND_MAX)* maxValue;
         ksi2[i] = (0.000001 + (float)rand()) / (float)(RAND_MAX)* maxValue;
         ksi3[i] = (0.000001 + (float)rand()) / (float)(RAND_MAX)* maxValue;
-        Vx[i] = sqrt(-2 * SIGMA_Maxwell * log(ksi1[i]))*sin(PI*ksi2[i])*cos(2 * PI*ksi3[i]);
-        Vy[i] = sqrt(-2 * SIGMA_Maxwell * log(ksi1[i]))*sin(PI*ksi2[i])*sin(2 * PI*ksi3[i]);
-        Vz[i] = sqrt(-2 * SIGMA_Maxwell * log(ksi1[i]))*cos(PI*ksi2[i]);
+        globalVars.Vx[i] = sqrt(-2 * SIGMA_Maxwell * log(ksi1[i]))*sin(PI*ksi2[i])*cos(2 * PI*ksi3[i]);
+        globalVars.Vy[i] = sqrt(-2 * SIGMA_Maxwell * log(ksi1[i]))*sin(PI*ksi2[i])*sin(2 * PI*ksi3[i]);
+        globalVars.Vz[i] = sqrt(-2 * SIGMA_Maxwell * log(ksi1[i]))*cos(PI*ksi2[i]);
     }
 }
 
@@ -112,11 +113,11 @@ inline double gasdev(int *idum) {
     }
 }
 
-void newSpeedGenerate(){
+void newSpeedGenerate(GlobalVars globalVars){
     int idum = 322223322;
     for(int i = 0; i < PARTICLE_NUMBER; i++){
-        Vx[i] = SIGMA_Maxwell * gasdev(&idum);
-        Vy[i] = SIGMA_Maxwell * gasdev(&idum);
-        Vz[i] = SIGMA_Maxwell * gasdev(&idum);
+        globalVars.Vx[i] = SIGMA_Maxwell * gasdev(&idum);
+        globalVars.Vy[i] = SIGMA_Maxwell * gasdev(&idum);
+        globalVars.Vz[i] = SIGMA_Maxwell * gasdev(&idum);
     }
 }

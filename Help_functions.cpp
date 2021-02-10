@@ -56,55 +56,69 @@ void printCuts(double *arrayToPrint, int numOfCuts){
     }
 }
 
-void printAverageSquareSpeed(int numOfCuts){
+void printAverageSquareSpeed(GlobalVars globalVars, int numOfCuts){
     double averageSquareSpeedArray[PARTICLE_NUMBER];
     double T_sum = 0.0;
     for (int i = 0; i < PARTICLE_NUMBER; i++){
-        averageSquareSpeedArray[i] = Vx[i] * Vx[i] + Vy[i] * Vy[i] + Vz[i] * Vz[i];
+        averageSquareSpeedArray[i] = globalVars.Vx[i] * globalVars.Vx[i] + globalVars.Vy[i] * globalVars.Vy[i] + globalVars.Vz[i] * globalVars.Vz[i];
     }
     for (int i = 0; i < PARTICLE_NUMBER; i++){
-        T_sum += (MASS * ((Vx[i] * Vx[i]) + (Vy[i] * Vy[i]) + (Vz[i] * Vz[i])))/FIRST_CALC_CONST;
+        T_sum += (MASS * ((globalVars.Vx[i] * globalVars.Vx[i]) + (globalVars.Vy[i] * globalVars.Vy[i]) + (globalVars.Vz[i] * globalVars.Vz[i])))/FIRST_CALC_CONST;
     }
     printf("Температура = %.8f\n", T_sum);
     printCuts(averageSquareSpeedArray, numOfCuts);
 }
 
-void printModuloSpeed(int numOfCuts){
+void printModuloSpeed(GlobalVars globalVars, int numOfCuts){
     double moduloSpeed[PARTICLE_NUMBER];
     for (int i = 0; i < PARTICLE_NUMBER; i++){
-        moduloSpeed[i] = sqrt((Vx[i] * Vx[i]) + (Vy[i] * Vy[i]) + (Vz[i] * Vz[i]));
+        moduloSpeed[i] = sqrt((globalVars.Vx[i] * globalVars.Vx[i]) + (globalVars.Vy[i] * globalVars.Vy[i]) + (globalVars.Vz[i] * globalVars.Vz[i]));
     }
     printCuts(moduloSpeed, numOfCuts);
 }
 
-void printGraphics(int numOfCuts){
+void printGraphics(GlobalVars globalVars, int numOfCuts){
     //Вывод графика проекций скоростей Vx
     printf("График проекций скоростей Vx:\n");
-    printCuts(Vx, numOfCuts);
+    printCuts(globalVars.Vx, numOfCuts);
     //Вывод графика проекций скоростей Vy
     printf("\n\nГрафик проекций скоростей Vy:\n");
-    printCuts(Vy, numOfCuts);
+    printCuts(globalVars.Vy, numOfCuts);
     //Вывод графика проекций скоростей Vz
     printf("\n\nГрафик проекций скоростей Vz:\n");
-    printCuts(Vz, numOfCuts);
+    printCuts(globalVars.Vz, numOfCuts);
     //Вывод графика средне-квадратической скорости
     printf("\n\nГрафик средне-квадратической скорости:\n");
-    printAverageSquareSpeed(numOfCuts);
+    printAverageSquareSpeed(globalVars, numOfCuts);
     //Вывод графика модуля скорости
     printf("\n\nГрафик модуля скорости:\n");
-    printModuloSpeed(numOfCuts);
+    printModuloSpeed(globalVars, numOfCuts);
 }
 
-void moleculePositionGenerator(){
+void moleculePositionGenerator(GlobalVars globalVars){
     int i = 0;
     for (int l = 0; l < NUMKRIST_X; l++) {
         for (int m = 0; m < NUMKRIST_Y; m++) {
             for (int k = 0; k < NUMKRIST_Z; k++) {
-                coordx[i] = l*REBROKR;
-                coordy[i] = m*REBROKR;
-                coordz[i] = k*REBROKR;
+                globalVars.coordx[i] = l*REBROKR;
+                globalVars.coordy[i] = m*REBROKR;
+                globalVars.coordz[i] = k*REBROKR;
                 i++;
             }
         }
     }
+}
+
+GlobalVars initGlobalVars(){
+    GlobalVars globalVars;
+    globalVars.Vx = new double[PARTICLE_NUMBER];
+    globalVars.Vy = new double[PARTICLE_NUMBER];
+    globalVars.Vz = new double[PARTICLE_NUMBER];
+    globalVars.coordx = new double[PARTICLE_NUMBER];
+    globalVars.coordy = new double[PARTICLE_NUMBER];
+    globalVars.coordz = new double[PARTICLE_NUMBER];
+    globalVars.Fx = new double[PARTICLE_NUMBER];
+    globalVars.Fy = new double[PARTICLE_NUMBER];
+    globalVars.Fz = new double[PARTICLE_NUMBER];
+    return globalVars;
 }

@@ -11,21 +11,25 @@
 /* ************************************************************************** */
 
 #include "include/HEADERS.h"
+
 using namespace std;
+
 
 int main()
 {
+    //Declaring & initializing global vars structure
+    GlobalVars globalVars = initGlobalVars();
+
     //----Speed-generating----------------//
-//    newSpeedGenerate();
+    newSpeedGenerate(globalVars);
 
     //----Molecule-position-generating----//
-//    moleculePositionGenerator();
+    moleculePositionGenerator(globalVars);
 
     for(int i = 0; i < PARTICLE_NUMBER; i++){
-        printf("(%.8f; %.8f; %.8f)\n", coordx[i], coordy[i], coordz[i]);
+        printf("(Vx; Vy; Vz) = (%.8f; %.8f; %.8f)\n", globalVars.Vx, globalVars.Vy, globalVars.Vz);
+        printf("(Rx; Ry; Rz) = (%.8f; %.8f; %.8f)\n", globalVars.coordx[i], globalVars.coordy[i], globalVars.coordz[i]);
     }
 
-
-    //printGraphics(270);
     return 0;
 }

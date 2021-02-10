@@ -6,15 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/mac/Desktop/diplom_code/Help_functions.cpp
-include/HEADERS.h
-/Users/mac/Desktop/diplom_code/include/HEADERS.h
-
 /Users/mac/Desktop/diplom_code/Main.cpp
-include/HEADERS.h
-/Users/mac/Desktop/diplom_code/include/HEADERS.h
-
-/Users/mac/Desktop/diplom_code/Speed_generation.cpp
 include/HEADERS.h
 /Users/mac/Desktop/diplom_code/include/HEADERS.h
 
@@ -29,10 +21,10 @@ cstdlib
 -
 SYSTEM_PARAMS.h
 /Users/mac/Desktop/diplom_code/include/SYSTEM_PARAMS.h
-GLOBAL_VARS.H
-/Users/mac/Desktop/diplom_code/include/GLOBAL_VARS.H
 GAS_CONSTANTS.h
 /Users/mac/Desktop/diplom_code/include/GAS_CONSTANTS.h
+GLOBAL_VARS.H
+/Users/mac/Desktop/diplom_code/include/GLOBAL_VARS.H
 
 /Users/mac/Desktop/diplom_code/include/SYSTEM_PARAMS.h
 

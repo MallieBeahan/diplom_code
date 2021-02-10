@@ -90,22 +90,9 @@ CMakeFiles/diplom_code.dir/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/diplom_code.dir/Main.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mac/Desktop/diplom_code/Main.cpp -o CMakeFiles/diplom_code.dir/Main.cpp.s
 
-CMakeFiles/diplom_code.dir/Help_functions.cpp.o: CMakeFiles/diplom_code.dir/flags.make
-CMakeFiles/diplom_code.dir/Help_functions.cpp.o: ../Help_functions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/mac/Desktop/diplom_code/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/diplom_code.dir/Help_functions.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/diplom_code.dir/Help_functions.cpp.o -c /Users/mac/Desktop/diplom_code/Help_functions.cpp
-
-CMakeFiles/diplom_code.dir/Help_functions.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/diplom_code.dir/Help_functions.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/mac/Desktop/diplom_code/Help_functions.cpp > CMakeFiles/diplom_code.dir/Help_functions.cpp.i
-
-CMakeFiles/diplom_code.dir/Help_functions.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/diplom_code.dir/Help_functions.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mac/Desktop/diplom_code/Help_functions.cpp -o CMakeFiles/diplom_code.dir/Help_functions.cpp.s
-
 CMakeFiles/diplom_code.dir/Speed_generation.cpp.o: CMakeFiles/diplom_code.dir/flags.make
 CMakeFiles/diplom_code.dir/Speed_generation.cpp.o: ../Speed_generation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/mac/Desktop/diplom_code/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/diplom_code.dir/Speed_generation.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/mac/Desktop/diplom_code/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/diplom_code.dir/Speed_generation.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/diplom_code.dir/Speed_generation.cpp.o -c /Users/mac/Desktop/diplom_code/Speed_generation.cpp
 
 CMakeFiles/diplom_code.dir/Speed_generation.cpp.i: cmake_force
@@ -116,18 +103,31 @@ CMakeFiles/diplom_code.dir/Speed_generation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/diplom_code.dir/Speed_generation.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mac/Desktop/diplom_code/Speed_generation.cpp -o CMakeFiles/diplom_code.dir/Speed_generation.cpp.s
 
+CMakeFiles/diplom_code.dir/Help_functions.cpp.o: CMakeFiles/diplom_code.dir/flags.make
+CMakeFiles/diplom_code.dir/Help_functions.cpp.o: ../Help_functions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/mac/Desktop/diplom_code/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/diplom_code.dir/Help_functions.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/diplom_code.dir/Help_functions.cpp.o -c /Users/mac/Desktop/diplom_code/Help_functions.cpp
+
+CMakeFiles/diplom_code.dir/Help_functions.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/diplom_code.dir/Help_functions.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/mac/Desktop/diplom_code/Help_functions.cpp > CMakeFiles/diplom_code.dir/Help_functions.cpp.i
+
+CMakeFiles/diplom_code.dir/Help_functions.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/diplom_code.dir/Help_functions.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/mac/Desktop/diplom_code/Help_functions.cpp -o CMakeFiles/diplom_code.dir/Help_functions.cpp.s
+
 # Object files for target diplom_code
 diplom_code_OBJECTS = \
 "CMakeFiles/diplom_code.dir/Main.cpp.o" \
-"CMakeFiles/diplom_code.dir/Help_functions.cpp.o" \
-"CMakeFiles/diplom_code.dir/Speed_generation.cpp.o"
+"CMakeFiles/diplom_code.dir/Speed_generation.cpp.o" \
+"CMakeFiles/diplom_code.dir/Help_functions.cpp.o"
 
 # External object files for target diplom_code
 diplom_code_EXTERNAL_OBJECTS =
 
 diplom_code: CMakeFiles/diplom_code.dir/Main.cpp.o
-diplom_code: CMakeFiles/diplom_code.dir/Help_functions.cpp.o
 diplom_code: CMakeFiles/diplom_code.dir/Speed_generation.cpp.o
+diplom_code: CMakeFiles/diplom_code.dir/Help_functions.cpp.o
 diplom_code: CMakeFiles/diplom_code.dir/build.make
 diplom_code: CMakeFiles/diplom_code.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/mac/Desktop/diplom_code/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable diplom_code"

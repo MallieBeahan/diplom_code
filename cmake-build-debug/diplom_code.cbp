@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/mac/Desktop/diplom_code/GLOBAL_VARS.h">
+			<Option target="diplom_code"/>
+		</Unit>
 		<Unit filename="/Users/mac/Desktop/diplom_code/Help_functions.cpp">
 			<Option target="diplom_code"/>
 		</Unit>

@@ -11,5 +11,5 @@ add_executable(diplom_code
         include/HEADERS.h
         include/SYSTEM_PARAMS.h
         Main.cpp
-        Help_functions.cpp
-        Speed_generation.cpp)
+        Speed_generation.cpp
+        Help_functions.cpp GLOBAL_VARS.h)
