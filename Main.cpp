@@ -25,11 +25,7 @@ int main()
 
     //----Molecule-position-generating----//
     moleculePositionGenerator(globalVars);
-
-    for(int i = 0; i < PARTICLE_NUMBER; i++){
-        printf("(Vx; Vy; Vz) = (%.8f; %.8f; %.8f)\n", globalVars.Vx, globalVars.Vy, globalVars.Vz);
-        printf("(Rx; Ry; Rz) = (%.8f; %.8f; %.8f)\n", globalVars.coordx[i], globalVars.coordy[i], globalVars.coordz[i]);
-    }
+    
 
     return 0;
 }
