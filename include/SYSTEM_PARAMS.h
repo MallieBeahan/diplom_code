@@ -17,10 +17,6 @@
 const int NUMBER_OF_STEPS = 100;
 //Начальный шаг
 const int STARTING_STEP = 0;
-//Стартовая температура системы
-const double START_TEMP = 2.7315;
-//Желаемая температура системы
-const double PREF_TEMP = 2.7315;
 //Постоянная Больцмана
 const double KBOLTZMN = 1.380648528;
 //Количество кристалических решеток по оси X
