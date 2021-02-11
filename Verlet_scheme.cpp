@@ -60,18 +60,18 @@ void verletScheme(GlobalVars globalVars){
         globalVars.coordz[i] += globalVars.Vz[i] * DELTA_T + (globalVars.Fz[i]/(2 * MASS)) * DELTA_T * DELTA_T;
 
         //Include PGU
-//        if (PGU == true){
-//            globalVars.coordx[i] >= LX ? globalVars.coordx[i] -= LX : 0;
-//            globalVars.coordx[i] < 0 ? globalVars.coordx[i] += LX : 0;
-//            globalVars.coordx[i] <= 0 ? globalVars.coordx[i] = 0 : 0;
-//
-//            globalVars.coordy[i] >= LY ? globalVars.coordy[i] -= LY : 0;
-//            globalVars.coordy[i] < 0 ? globalVars.coordy[i] += LY : 0;
-//            globalVars.coordy[i] <= 0 ? globalVars.coordy[i] = 0 : 0;
-//
-//            globalVars.coordz[i] >= LZ ? globalVars.coordz[i] -= LZ : 0;
-//            globalVars.coordz[i] < 0 ? globalVars.coordz[i] += LZ : 0;
-//            globalVars.coordz[i] <= 0 ? globalVars.coordz[i] = 0 : 0;
-//        }
+        if (PGU == true){
+            globalVars.coordx[i] >= LX ? globalVars.coordx[i] -= LX : 0;
+            globalVars.coordx[i] < 0 ? globalVars.coordx[i] += LX : 0;
+            globalVars.coordx[i] <= 0 ? globalVars.coordx[i] = 0 : 0;
+
+            globalVars.coordy[i] >= LY ? globalVars.coordy[i] -= LY : 0;
+            globalVars.coordy[i] < 0 ? globalVars.coordy[i] += LY : 0;
+            globalVars.coordy[i] <= 0 ? globalVars.coordy[i] = 0 : 0;
+
+            globalVars.coordz[i] >= LZ ? globalVars.coordz[i] -= LZ : 0;
+            globalVars.coordz[i] < 0 ? globalVars.coordz[i] += LZ : 0;
+            globalVars.coordz[i] <= 0 ? globalVars.coordz[i] = 0 : 0;
+        }
     }
 }
