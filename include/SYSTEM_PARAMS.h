@@ -13,23 +13,41 @@
 #ifndef SYSTEM_PARAMS_H
 # define SYSTEM_PARAMS_H
 
-const double NUMBER_OF_STEPS = 100; //Колличество шагов
-const double KBOLTZMN = 1.380648528; //Постоянная Больцмана
+//Колличество шагов, которое будет проделано.
+const int NUMBER_OF_STEPS = 100;
+//Начальный шаг
+const int STARTING_STEP = 0;
+//Стартовая температура системы
+const double START_TEMP = 2.7315;
+//Желаемая температура системы
+const double PREF_TEMP = 2.7315;
+//Постоянная Больцмана
+const double KBOLTZMN = 1.380648528;
+//Количество кристалических решеток по оси X
 const double NUMKRIST_X = 2;
+//Количество кристалических решеток по оси Y
 const double NUMKRIST_Y = NUMKRIST_X;
+//Количество кристалических решеток по оси Z
 const double NUMKRIST_Z = NUMKRIST_X;
-const int PARTICLE_NUMBER = NUMKRIST_X * NUMKRIST_Y * NUMKRIST_Z; // Примитивная кристалическая решетка (равномерное распределение по пространству) при ПГУ.
-const double FIRST_CALC_CONST = (3 * KBOLTZMN)/PARTICLE_NUMBER; // Константа
+//Примитивная кристалическая решетка (равномерное распределение по пространству) при ПГУ.
+const int PARTICLE_NUMBER = NUMKRIST_X * NUMKRIST_Y * NUMKRIST_Z;
+//Константа использующаяся при генерации скоростей частиц
+const double FIRST_CALC_CONST = (3 * KBOLTZMN)/PARTICLE_NUMBER;
+//Ребро кристала
 const double REBROKR = 0.5;
-const double DELTA_T = 0.002; //Шаг интегрирования
+//Постоянная Больцмана
+const double DELTA_T = 0.002;
+//Размер области по оси X
 const double LX = NUMKRIST_X * REBROKR;
+//Размер области по оси Y
 const double LY = NUMKRIST_Y * REBROKR;
+//Размер области по оси Z
 const double LZ = NUMKRIST_Z * REBROKR;
+//Объем системы
 const double VOLUME = LX * LY * LZ;
+//Учет ПГУ.
 const bool PGU = false;
-const int STARTING_STEP = 0; //Начальный шаг
+//Константа для термостата
 const double TAU_BER = 1.0;
-const double START_TEMP = 2.7315;//Стартовая температура системы
-const double PREF_TEMP = 2.7315;//Желаемая температура системы
 
 #endif

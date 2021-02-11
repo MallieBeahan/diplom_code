@@ -12,6 +12,18 @@
 
 #include "include/HEADERS.h"
 
+//Выделение и обнуление памяти
+double *memoryAllocatingAndZeroingArgs(int length){
+    double *array = new double[length];
+
+    for (int i = 0; i < length; i++){
+        array[i] = 0.0;
+    }
+
+    return array;
+}
+
+//Сортировка массива методом быстрой сортировки
 void quickSort(double *array, int length) {
     if (length <= 1){
         return ;
@@ -95,7 +107,7 @@ void printGraphics(GlobalVars globalVars, int numOfCuts){
     printModuloSpeed(globalVars, numOfCuts);
 }
 
-//Init start position molecules
+//Генерация начального положения частиц.
 void moleculePositionGenerator(GlobalVars globalVars){
     int i = 0;
     for (int l = 0; l < NUMKRIST_X; l++) {
@@ -110,8 +122,7 @@ void moleculePositionGenerator(GlobalVars globalVars){
     }
 }
 
-
-//Memory allocating
+//Выделение памяти под глобальны переменные, обнуление аргументов.
 GlobalVars initGlobalVars(){
     GlobalVars globalVars;
     globalVars.Vx = new double[PARTICLE_NUMBER];
@@ -124,5 +135,36 @@ GlobalVars initGlobalVars(){
     globalVars.Fy = new double[PARTICLE_NUMBER];
     globalVars.Fz = new double[PARTICLE_NUMBER];
     globalVars.Epot = new double[PARTICLE_NUMBER];
+    globalVars.Temperature = START_TEMPERATURE;
+
+    for (int i = 0; i < PARTICLE_NUMBER; i++){
+        globalVars.Vx[i] = 0.0;
+        globalVars.Vy[i] = 0.0;
+        globalVars.Vz[i] = 0.0;
+        globalVars.coordx[i] = 0.0;
+        globalVars.coordy[i] = 0.0;
+        globalVars.coordz[i] = 0.0;
+        globalVars.Fx[i] = 0.0;
+        globalVars.Fy[i] = 0.0;
+        globalVars.Fz[i] = 0.0;
+        globalVars.Epot[i] = 0.0;
+    }
     return globalVars;
+}
+
+//Подсчет скоростей центра масс
+double *getVCM(GlobalVars globalVars){
+    double *vcm = memoryAllocatingAndZeroingArgs(3);
+
+    for (int i = 0; i < PARTICLE_NUMBER; i++){
+        vcm[0] += globalVars.Vx[i];
+        vcm[1] += globalVars.Vy[i];
+        vcm[2] += globalVars.Vz[i];
+    }
+
+    vcm[0] /= PARTICLE_NUMBER;
+    vcm[1] /= PARTICLE_NUMBER;
+    vcm[2] /= PARTICLE_NUMBER;
+
+    return vcm;
 }

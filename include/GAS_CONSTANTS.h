@@ -12,15 +12,29 @@
 #ifndef GAS_CONSTANTS_H
 # define GAS_CONSTANTS_H
 
+//Постоянная Больцмана
 const double KBOLTZMAN = 1.380648528;
+//Число ПИ
 const double PI = 3.141592654;
+//Масса частицы в н.ед (кг^-27)
 const double MASS = 46.517;
+//Начальная температура в н.eд
 const double START_TEMPERATURE = 10;
-const double SIGMA_Maxwell = sqrt((KBOLTZMAN*START_TEMPERATURE)/(MASS));
+//Константа, для генерации скорости
+const double SIGMA_Maxwell = sqrt((KBOLTZMAN * START_TEMPERATURE)/(MASS));
+//Расстояние, на котором энергия взаимодействия становится равной нулю.
 const double SIGMA_LJ = 0.3418;
+//Глубина потенциальной ямы
 const double EPSILON_LJ = 1.712;
+//Константа, для подсчета потенциала Леннарда-Джонса
 const double EPSILON_LJ4 = EPSILON_LJ * 4;
+//Константа, для подсчета потенциала Леннарда-Джонса
 const double EPSILON_LJ24 = EPSILON_LJ * 24;
+//Радиус обрезания
 const double RCUT = 2.5 * SIGMA_LJ;
+//Число степеней свободы
+const double D = 3;
+//Константа для расчета температуры
+const double T_CONST=(2/(D*KBOLTZMAN));
 
 #endif

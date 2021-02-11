@@ -14,7 +14,7 @@
 
 using namespace std;
 
-
+//Основная функция - точка входа.
 int main()
 {
     //Декларация и инициализация структуры глобальных переменных.
@@ -25,6 +25,9 @@ int main()
 
     //Генерация скорости частиц.
     newSpeedGenerate(globalVars);
+
+    //Запуск математического моделирования системы.
+    mathemathical_modelling(globalVars);
 
 
     return 0;

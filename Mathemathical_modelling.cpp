@@ -20,7 +20,7 @@ void mathemathical_modelling(GlobalVars globalVars){
         double Eterm = 0;
         double Eint = 0;
         double E = 0;
-        
+
         //Вычисление координат частиц по схеме Верле.
         if (step != STARTING_STEP){
             verletScheme(globalVars);
@@ -44,6 +44,9 @@ void mathemathical_modelling(GlobalVars globalVars){
             globalVars.Fy[i] = F[1];
             globalVars.Fz[i] = F[2];
         }
-        // Здесь должны быть вычисления энергий
+        //Подсчет энергий на одну частицу(потенциальная, кинетическая, тепловая, внутренняя, полная).
+        calculateAllEnergies(globalVars);
+        //Подсчет температуры системы.
+        globalVars.Temperature = globalVars.Eterm1 * T_CONST;
     }
 }

@@ -32,12 +32,16 @@ void printAverageSquareSpeed(GlobalVars globalVars, int numOfCuts);
 void printModuloSpeed(GlobalVars globalVars, int numOfCuts);
 void printGraphics(GlobalVars globalVars, int numOfCuts);
 void moleculePositionGenerator(GlobalVars globalVars);
+double *getVCM(GlobalVars globalVars);
+double *memoryAllocatingAndZeroingArgs(int length);
 /*-----------VERLET_SCHEME----------------*/
 void verletScheme(GlobalVars globalVars);
 double lennardJonesPotentialCalc(double r);
 double lennardJonesForceCalc(double r);
 double *forceCalc(GlobalVars globalVars, int step);
 double *velocityCalc(GlobalVars globalVars, int i, double *F);
+/*-----------ENERGY_FUNCTIONS-------------*/
+void calculateAllEnergies(GlobalVars globalVars);
 /*-----------BERENDSEN_THERMOSTAT---------*/
 void berendsenThermostat(GlobalVars globalVars);
 /*-----------MATHEMATICAL_MODELLING-------*/
