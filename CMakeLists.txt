@@ -15,4 +15,4 @@ add_executable(diplom_code
         Speed_generation.cpp
         Mathemathical_modelling.cpp
         Verlet_scheme.cpp
-        Energy_calc.cpp)
+        Energy_calc.cpp Thermostat.cpp)

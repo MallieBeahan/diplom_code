@@ -12,6 +12,7 @@
 
 #include "include/HEADERS.h"
 
+//Основная функция математического моделирования процесса.
 void mathemathical_modelling(GlobalVars globalVars){
     for (int step = 0; step < NUMBER_OF_STEPS; step++){
         double Epot = 0;
@@ -19,7 +20,7 @@ void mathemathical_modelling(GlobalVars globalVars){
         double Eterm = 0;
         double Eint = 0;
         double E = 0;
-
+        
         //Вычисление координат частиц по схеме Верле.
         if (step != STARTING_STEP){
             verletScheme(globalVars);
@@ -35,8 +36,10 @@ void mathemathical_modelling(GlobalVars globalVars){
                 globalVars.Vx[i] = V[0];
                 globalVars.Vx[i] = V[1];
                 globalVars.Vx[i] = V[2];
+                //Термостат Берендсена.
+                berendsenThermostat(globalVars);
             }
-
+            //Замена сил с предыдщуего шага на новые.
             globalVars.Fx[i] = F[0];
             globalVars.Fy[i] = F[1];
             globalVars.Fz[i] = F[2];

@@ -38,6 +38,8 @@ double lennardJonesPotentialCalc(double r);
 double lennardJonesForceCalc(double r);
 double *forceCalc(GlobalVars globalVars, int step);
 double *velocityCalc(GlobalVars globalVars, int i, double *F);
+/*-----------BERENDSEN_THERMOSTAT---------*/
+void berendsenThermostat(GlobalVars globalVars);
 /*-----------MATHEMATICAL_MODELLING-------*/
 void mathemathical_modelling(GlobalVars globalVars);
 

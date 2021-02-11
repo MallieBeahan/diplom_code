@@ -22,7 +22,7 @@ double *velocityCalc(GlobalVars globalVars, int i, double *F)
 }
 
 double lennardJonesForceCalc(double r){
-    double sigmar = pow(SIGMA_LJ/r,6);
+    double sigmar = SIGMA_LJ/r * SIGMA_LJ/r * SIGMA_LJ/r * SIGMA_LJ/r * SIGMA_LJ/r * SIGMA_LJ/r;
     return EPSILON_LJ24/r*(2*(sigmar*sigmar) - sigmar);
 }
 

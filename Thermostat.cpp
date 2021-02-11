@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   moya.c                                             :+:      :+:    :+:   */
+/*   Thermostat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Alexandr <Alexandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/22 22:04:50 by Alexandr          #+#    #+#             */
-/*   Updated: 2021/01/31 20:05:30 by Alexandr         ###   ########.fr       */
+/*   Created: 2020/11/15 22:51:25 by Alexandr          #+#    #+#             */
+/*   Updated: 2020/11/15 23:31:03 by Alexandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef GLOBAL_VARS_H
-# define GLOBAL_VARS_H
+#include "include/HEADERS.h"
 
-struct GlobalVars{
-    double *Vx;
-    double *Vy;
-    double *Vz;
-    double *coordx;
-    double *coordy;
-    double *coordz;
-    double *Fx;
-    double *Fy;
-    double *Fz;
-    double *Epot;
-    double Temperature = 0.0;
-};
-
-#endif
+void berendsenThermostat(GlobalVars globalVars){
+    double lambda = sqrt(1 + (DELTA_T/TAU_BER) * ((PREF_TEMP/globalVars.Temperature) - 1));
+    for(int i = 0; i < PARTICLE_NUMBER; i++){
+        globalVars.Vx[i] *= lambda;
+        globalVars.Vy[i] *= lambda;
+        globalVars.Vz[i] *= lambda;
+    }
+}

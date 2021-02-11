@@ -13,7 +13,7 @@
 #ifndef SYSTEM_PARAMS_H
 # define SYSTEM_PARAMS_H
 
-const double NUMBER_OF_STEPS = 10; //Колличество шагов
+const double NUMBER_OF_STEPS = 100; //Колличество шагов
 const double KBOLTZMN = 1.380648528; //Постоянная Больцмана
 const double NUMKRIST_X = 2;
 const double NUMKRIST_Y = NUMKRIST_X;
@@ -28,5 +28,8 @@ const double LZ = NUMKRIST_Z * REBROKR;
 const double VOLUME = LX * LY * LZ;
 const bool PGU = false;
 const int STARTING_STEP = 0; //Начальный шаг
+const double TAU_BER = 1.0;
+const double START_TEMP = 2.7315;//Стартовая температура системы
+const double PREF_TEMP = 2.7315;//Желаемая температура системы
 
 #endif
