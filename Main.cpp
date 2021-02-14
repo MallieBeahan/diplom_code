@@ -21,10 +21,12 @@ int main()
     GlobalVars globalVars = initGlobalVars();
 
     //Генерация начального положения частиц.
-    moleculePositionGenerator(globalVars);
+    //moleculePositionGenerator(globalVars);
 
     //Генерация скорости частиц.
-    newSpeedGenerate(globalVars);
+    //newSpeedGenerate(globalVars);
+
+    execCoordsAndSpeed(globalVars);
 
     //Запуск математического моделирования системы.
     mathemathical_modelling(globalVars);

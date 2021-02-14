@@ -17,7 +17,7 @@ const double KBOLTZMAN = 1.380648528;
 //Число ПИ
 const double PI = 3.141592654;
 //Масса частицы Аргона в н.ед (кг^-27)
-const double MASS = 66.33521357;
+const double MASS = 66.335;
 //Начальная температура в н.eд
 const double START_TEMPERATURE = 2.7315;
 //Желаемая температура системы
@@ -25,9 +25,9 @@ const double PREF_TEMP = 2.7315;
 //Константа, для генерации скорости
 const double SIGMA_Maxwell = sqrt((KBOLTZMAN * START_TEMPERATURE)/(MASS));
 //Расстояние, на котором энергия взаимодействия становится равной нулю. (Аргон)
-const double SIGMA_LJ = 0.3401;
+const double SIGMA_LJ = 0.3418;
 //Глубина потенциальной ямы (Аргон)
-const double EPSILON_LJ = 1.664;
+const double EPSILON_LJ = 1.712;
 //Константа, для подсчета потенциала Леннарда-Джонса
 const double EPSILON_LJ4 = EPSILON_LJ * 4;
 //Константа, для подсчета потенциала Леннарда-Джонса

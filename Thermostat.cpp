@@ -12,7 +12,7 @@
 #include "include/HEADERS.h"
 
 void berendsenThermostat(GlobalVars globalVars){
-    double lambda = sqrt(1 + (DELTA_T/TAU_BER) * ((PREF_TEMP/globalVars.Temperature) - 1));
+    double lambda = sqrt(1 + (DELTA_T/TAU_BER) * ((PREF_TEMP/globalVars.Temperature[0]) - 1));
     for(int i = 0; i < PARTICLE_NUMBER; i++){
         globalVars.Vx[i] *= lambda;
         globalVars.Vy[i] *= lambda;

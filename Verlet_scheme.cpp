@@ -12,13 +12,11 @@
 
 #include "include/HEADERS.h"
 
-double *velocityCalc(GlobalVars globalVars, int i, double *F)
+void velocityCalc(GlobalVars globalVars, int i)
 {
-    double *V = memoryAllocatingAndZeroingArgs(3);
-    V[0] = globalVars.Vx[i] + ((F[0] + globalVars.Fx[i])/(2 * MASS)) * DELTA_T;
-    V[1] = globalVars.Vy[i] + ((F[1] + globalVars.Fy[i])/(2 * MASS)) * DELTA_T;
-    V[2] = globalVars.Vz[i] + ((F[2] + globalVars.Fz[i])/(2 * MASS)) * DELTA_T;
-    return V;
+    globalVars.Vx[i] = globalVars.Vx[i] + ((globalVars.F_temp[0] + globalVars.Fx[i])/(2 * MASS)) * DELTA_T;
+    globalVars.Vy[i] = globalVars.Vy[i] + ((globalVars.F_temp[1] + globalVars.Fy[i])/(2 * MASS)) * DELTA_T;
+    globalVars.Vz[i] = globalVars.Vz[i] + ((globalVars.F_temp[2] + globalVars.Fz[i])/(2 * MASS)) * DELTA_T;
 }
 
 double lennardJonesForceCalc(double r){
@@ -31,9 +29,11 @@ double lennardJonesPotentialCalc(double r){
     return EPSILON_LJ4 * ((sigmar*sigmar)-sigmar);
 }
 
-double *forceCalc(GlobalVars globalVars, int step){
+void forceCalc(GlobalVars globalVars, int step){
     double Epot = 0;
-    double *F = memoryAllocatingAndZeroingArgs(3);
+    globalVars.F_temp[0] = 0.0;
+    globalVars.F_temp[1] = 0.0;
+    globalVars.F_temp[2] = 0.0;
 
     for (int i = 0; i < PARTICLE_NUMBER; i++){
         if (i != step) {
@@ -47,18 +47,17 @@ double *forceCalc(GlobalVars globalVars, int step){
                 Epot += U/2;
                 //Вычисление сил взаимодействия между частицами
                 double FU = lennardJonesForceCalc(r);
-                F[0] += FU * (globalVars.coordx[step] - globalVars.coordx[i])/r;
-                F[1] += FU * (globalVars.coordy[step] - globalVars.coordy[i])/r;
-                F[2] += FU * (globalVars.coordz[step] - globalVars.coordz[i])/r;
+                globalVars.F_temp[0] += FU * (globalVars.coordx[step] - globalVars.coordx[i])/r;
+                globalVars.F_temp[1] += FU * (globalVars.coordy[step] - globalVars.coordy[i])/r;
+                globalVars.F_temp[2] += FU * (globalVars.coordz[step] - globalVars.coordz[i])/r;
             }
         }
     }
     globalVars.Epot[step] = Epot;
-    return F;
 }
 
 void verletScheme(GlobalVars globalVars){
-    for (int i = 0; i < NUMBER_OF_STEPS; i++){
+    for (int i = 0; i < PARTICLE_NUMBER; i++){
         //Вычисление координат частиц
         globalVars.coordx[i] += globalVars.Vx[i] * DELTA_T + (globalVars.Fx[i]/(2 * MASS)) * DELTA_T * DELTA_T;
         globalVars.coordy[i] += globalVars.Vy[i] * DELTA_T + (globalVars.Fy[i]/(2 * MASS)) * DELTA_T * DELTA_T;

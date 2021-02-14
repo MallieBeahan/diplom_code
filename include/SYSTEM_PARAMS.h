@@ -6,7 +6,7 @@
 /*   By: Alexandr <Alexandr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 22:09:10 by Alexandr          #+#    #+#             */
-/*   Updated: 2020/11/15 23:57:27 by Alexandr         ###   ########.fr       */
+/*   Updated: 2021/02/14 20:18:09 by Alexandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SYSTEM_PARAMS_H
 
 //Колличество шагов, которое будет проделано.
-const int NUMBER_OF_STEPS = 100;
+const int NUMBER_OF_STEPS = 3000;
 //Начальный шаг
 const int STARTING_STEP = 0;
 //Постоянная Больцмана
@@ -26,7 +26,8 @@ const double NUMKRIST_Y = NUMKRIST_X;
 //Количество кристалических решеток по оси Z
 const double NUMKRIST_Z = NUMKRIST_X;
 //Примитивная кристалическая решетка (равномерное распределение по пространству) при ПГУ.
-const int PARTICLE_NUMBER = NUMKRIST_X * NUMKRIST_Y * NUMKRIST_Z;
+//const int PARTICLE_NUMBER = NUMKRIST_X * NUMKRIST_Y * NUMKRIST_Z;
+const int PARTICLE_NUMBER = 2;
 //Константа использующаяся при генерации скоростей частиц
 const double FIRST_CALC_CONST = (3 * KBOLTZMN)/PARTICLE_NUMBER;
 //Ребро кристала

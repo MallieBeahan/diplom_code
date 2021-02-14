@@ -31,20 +31,24 @@ struct GlobalVars{
     double *Fy;
     //Силы межатомного взаимодействия по оси Z
     double *Fz;
+    //Силы межатомного взаимодействия c прошлого шага
+    double *F_temp;
     //Потенциальная энергия всех частиц
     double *Epot;
     //Потенциальная энергия на одну частицу
-    double Epot1;
+    double *Epot1;
     //Кинетическая энергия на одну частицу
-    double Ekin1;
+    double *Ekin1;
     //Тепловая энергия на одну частицу
-    double Eterm1;
+    double *Eterm1;
     //Внутренняя энергия на одну частицу
-    double Eint1;
+    double *Eint1;
     //Полная энергия на одну частицу
-    double E1;
+    double *E1;
     //Температура системы
-    double Temperature;
+    double *Temperature;
+    //Центр масс скорости
+    double *Vcm;
 };
 
 #endif

@@ -135,7 +135,28 @@ GlobalVars initGlobalVars(){
     globalVars.Fy = new double[PARTICLE_NUMBER];
     globalVars.Fz = new double[PARTICLE_NUMBER];
     globalVars.Epot = new double[PARTICLE_NUMBER];
-    globalVars.Temperature = START_TEMPERATURE;
+    globalVars.Vcm = new double[3];
+    globalVars.F_temp = new double[3];
+
+
+    globalVars.Epot1 = new double[1];
+    globalVars.Epot1[0] = 0.0;
+    globalVars.Ekin1 = new double[1];
+    globalVars.Ekin1[0] = 0.0;
+    globalVars.Eterm1 = new double[1];
+    globalVars.Eterm1[0] = 0.0;
+    globalVars.Eint1 = new double[1];
+    globalVars.Eint1[0] = 0.0;
+    globalVars.E1 = new double[1];
+    globalVars.E1[0] = 0.0;
+    globalVars.Temperature = new double[1];
+    globalVars.Temperature[0] = START_TEMPERATURE;
+    globalVars.Vcm[0] = 0.0;
+    globalVars.Vcm[1] = 0.0;
+    globalVars.Vcm[2] = 0.0;
+    globalVars.F_temp[0] = 0.0;
+    globalVars.F_temp[1] = 0.0;
+    globalVars.F_temp[2] = 0.0;
 
     for (int i = 0; i < PARTICLE_NUMBER; i++){
         globalVars.Vx[i] = 0.0;
@@ -153,8 +174,11 @@ GlobalVars initGlobalVars(){
 }
 
 //Подсчет скоростей центра масс
-double *getVCM(GlobalVars globalVars){
-    double *vcm = memoryAllocatingAndZeroingArgs(3);
+void getVCM(GlobalVars globalVars){
+    double vcm[3];
+    vcm[0] = 0.0;
+    vcm[1] = 0.0;
+    vcm[2] = 0.0;
 
     for (int i = 0; i < PARTICLE_NUMBER; i++){
         vcm[0] += globalVars.Vx[i];
@@ -162,9 +186,46 @@ double *getVCM(GlobalVars globalVars){
         vcm[2] += globalVars.Vz[i];
     }
 
-    vcm[0] /= PARTICLE_NUMBER;
-    vcm[1] /= PARTICLE_NUMBER;
-    vcm[2] /= PARTICLE_NUMBER;
+    globalVars.Vcm[0] /= PARTICLE_NUMBER;
+    globalVars.Vcm[1] /= PARTICLE_NUMBER;
+    globalVars.Vcm[2] /= PARTICLE_NUMBER;
+}
 
-    return vcm;
+void execCoordsAndSpeed(GlobalVars globalVars){
+    globalVars.coordx[0] = 0.25;
+    globalVars.coordy[0] = 0.75;
+    globalVars.coordz[0] = 0.5;
+    globalVars.coordx[1] = 0.75;
+    globalVars.coordy[1] = 0.75;
+    globalVars.coordz[1] = 0.5;
+    globalVars.Vx[0] = 1;
+    globalVars.Vy[0] = 1;
+    globalVars.Vz[0] = 0;
+    globalVars.Vx[1] = -1;
+    globalVars.Vy[1] = 1;
+    globalVars.Vz[1] = 0;
+}
+
+void printVerletStep(GlobalVars globalVars, int step){
+    printf("Step = %d\n", step);
+    for (int i = 0; i < PARTICLE_NUMBER; i++){
+        printf("R%d = (R_x%d; R_y%d; R_z%d) = (%.8f; %.8f; %.8f)\n", i, i, i, i, globalVars.coordx[i], globalVars.coordy[i], globalVars.coordz[i]);
+    }
+    for (int i = 0; i < PARTICLE_NUMBER; i++){
+        printf("V%d = (V_x%d; V_y%d; V_z%d) = (%.8f; %.8f; %.8f)\n", i, i, i, i, globalVars.Vx[i], globalVars.Vy[i], globalVars.Vz[i]);
+    }
+    for (int i = 0; i < PARTICLE_NUMBER; i++){
+        printf("F%d = (F_x%d; F_y%d; F_z%d) = (%.8f; %.8f; %.8f)\n", i, i, i, i, globalVars.Fx[i], globalVars.Fy[i], globalVars.Fz[i]);
+    }
+    printf("Temperature = %.8f\n\n", globalVars.Temperature[0]);
+}
+
+void printEnergyStep(GlobalVars globalVars, int step){
+    printf("Step = %d\n", step);
+    printf("Epot1 = %.8f\n", globalVars.Epot1[0]);
+    printf("Ekin1 = %.8f\n", globalVars.Ekin1[0]);
+    printf("Eterm1 = %.8f\n", globalVars.Eterm1[0]);
+    printf("Eint1 = %.8f\n", globalVars.Eint1[0]);
+    printf("E1 = %.8f\n", globalVars.E1[0]);
+    printf("Temperature = %.8f\n\n", globalVars.Temperature[0]);
 }
