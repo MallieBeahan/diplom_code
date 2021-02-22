@@ -14,7 +14,7 @@
 # define SYSTEM_PARAMS_H
 
 //Колличество шагов, которое будет проделано.
-const int NUMBER_OF_STEPS = 3000;
+const int NUMBER_OF_STEPS = 1000;
 //Начальный шаг
 const int STARTING_STEP = 0;
 //Постоянная Больцмана
@@ -35,15 +35,18 @@ const double REBROKR = 0.5;
 //Постоянная Больцмана
 const double DELTA_T = 0.002;
 //Размер области по оси X
-const double LX = NUMKRIST_X * REBROKR;
+//const double LX = NUMKRIST_X * REBROKR;
 //Размер области по оси Y
-const double LY = NUMKRIST_Y * REBROKR;
+//const double LY = NUMKRIST_Y * REBROKR;
 //Размер области по оси Z
-const double LZ = NUMKRIST_Z * REBROKR;
+//const double LZ = NUMKRIST_Z * REBROKR;
 //Объем системы
+const double LX = 5;
+const double LY = 5;
+const double LZ = 5;
 const double VOLUME = LX * LY * LZ;
 //Учет ПГУ.
-const bool PGU = false;
+const bool PGU = true;
 //Константа для термостата
 const double TAU_BER = 1.0;
 

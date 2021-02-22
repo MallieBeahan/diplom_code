@@ -65,17 +65,26 @@ void verletScheme(GlobalVars globalVars){
 
         //Переодические граничные условия
         if (PGU == true){
-            globalVars.coordx[i] >= LX ? globalVars.coordx[i] -= LX : 0;
-            globalVars.coordx[i] < 0 ? globalVars.coordx[i] += LX : 0;
-            globalVars.coordx[i] <= 0 ? globalVars.coordx[i] = 0 : 0;
+            if (globalVars.coordx[i] >= LX) {
+                globalVars.coordx[i] -= LX;
+            }
+            if (globalVars.coordx[i] < 0) {
+                globalVars.coordx[i] += LX;
+            }
 
-            globalVars.coordy[i] >= LY ? globalVars.coordy[i] -= LY : 0;
-            globalVars.coordy[i] < 0 ? globalVars.coordy[i] += LY : 0;
-            globalVars.coordy[i] <= 0 ? globalVars.coordy[i] = 0 : 0;
+            if (globalVars.coordy[i] >= LY) {
+                globalVars.coordy[i] -= LY;
+            }
+            if (globalVars.coordy[i] < 0) {
+                globalVars.coordy[i] += LY;
+            }
 
-            globalVars.coordz[i] >= LZ ? globalVars.coordz[i] -= LZ : 0;
-            globalVars.coordz[i] < 0 ? globalVars.coordz[i] += LZ : 0;
-            globalVars.coordz[i] <= 0 ? globalVars.coordz[i] = 0 : 0;
+            if (globalVars.coordz[i] >= LZ) {
+                globalVars.coordz[i] -= LZ;
+            }
+            if (globalVars.coordz[i] < 0) {
+                globalVars.coordz[i] += LZ;
+            }
         }
     }
 }

@@ -29,7 +29,7 @@ void mathemathical_modelling(GlobalVars globalVars){
                 //Вычисление скорости частицы.
                 velocityCalc(globalVars, i);
                 //Термостат Берендсена.
-                berendsenThermostat(globalVars);
+                //berendsenThermostat(globalVars);
             }
             //Замена сил с предыдщуего шага на новые.
             globalVars.Fx[i] = globalVars.F_temp[0];
@@ -40,5 +40,6 @@ void mathemathical_modelling(GlobalVars globalVars){
         calculateAllEnergies(globalVars);
         //Подсчет температуры системы.
         globalVars.Temperature[0] = globalVars.Eterm1[0] * T_CONST;
+        printf("%.8f, ", globalVars.coordy[1]);
     }
 }
