@@ -12,6 +12,31 @@
 
 #include "include/HEADERS.h"
 
+void fillingCoordsVirtual(GlobalVars globalVars){
+    for (int i = 0; i < PARTICLE_NUMBER; i++)
+    {
+        int j = 0;
+        double ZZ = -LZ;
+        for(int kk = 0; kk < 3; kk++){
+            double YY = -LY;
+            for(int ll = 0; ll < 3; ll++){
+                double XX = -LX;
+                for(int mm = 0; mm < 3; mm++){
+                    if(XX != 0.0 || YY != 0.0 || ZZ != 0.0){
+                        globalVars.virtualCoordx[i * 26 + j] = globalVars.virtualCoordx[i] + XX;
+                        globalVars.virtualCoordy[i * 26 + j] = globalVars.virtualCoordy[i] + YY;
+                        globalVars.virtualCoordz[i * 26 + j] = globalVars.virtualCoordz[i] + ZZ;
+                        j++;
+                    }
+                    XX += LX;
+                }
+                YY += LY;
+            }
+            ZZ += LZ;
+        }
+    }
+}
+
 void velocityCalc(GlobalVars globalVars, int i)
 {
     globalVars.Vx[i] = globalVars.Vx[i] + ((globalVars.F_temp[0] + globalVars.Fx[i])/(2 * MASS)) * DELTA_T;

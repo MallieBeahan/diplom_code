@@ -25,6 +25,12 @@ struct GlobalVars{
     double *coordy;
     //Координаты частиц по оси Z
     double *coordz;
+    //Координаты виртуальных частиц по оси X
+    double *virtualCoordx;
+    //Координаты виртуальных частиц по оси Y
+    double *virtualCoordy;
+    //Координаты виртуальных частиц по оси Z
+    double *virtualCoordz;
     //Силы межатомного взаимодействия по оси X
     double *Fx;
     //Силы межатомного взаимодействия по оси Y

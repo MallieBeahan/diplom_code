@@ -107,7 +107,7 @@ void printGraphics(GlobalVars globalVars, int numOfCuts){
     printModuloSpeed(globalVars, numOfCuts);
 }
 
-//Генерация начального положения частиц.
+//Генерация начального положения частиц. (Примитивная кристалическая решетка)
 void moleculePositionGenerator(GlobalVars globalVars){
     int i = 0;
     for (int l = 0; l < NUMKRIST_X; l++) {
@@ -137,6 +137,9 @@ GlobalVars initGlobalVars(){
     globalVars.Epot = new double[PARTICLE_NUMBER];
     globalVars.Vcm = new double[3];
     globalVars.F_temp = new double[3];
+    globalVars.virtualCoordx = new double[PARTICLE_NUMBER * 26];
+    globalVars.virtualCoordy = new double[PARTICLE_NUMBER * 26];
+    globalVars.virtualCoordz = new double[PARTICLE_NUMBER * 26];
 
 
     globalVars.Epot1 = new double[1];
@@ -158,6 +161,7 @@ GlobalVars initGlobalVars(){
     globalVars.F_temp[1] = 0.0;
     globalVars.F_temp[2] = 0.0;
 
+    //Обнуление массива реальных частиц
     for (int i = 0; i < PARTICLE_NUMBER; i++){
         globalVars.Vx[i] = 0.0;
         globalVars.Vy[i] = 0.0;
@@ -169,6 +173,13 @@ GlobalVars initGlobalVars(){
         globalVars.Fy[i] = 0.0;
         globalVars.Fz[i] = 0.0;
         globalVars.Epot[i] = 0.0;
+    }
+
+    //Обнуление массива виртуальных частиц
+    for (int i = 0; i < PARTICLE_NUMBER * 26; i++){
+        globalVars.virtualCoordx[i] = 0.0;
+        globalVars.virtualCoordy[i] = 0.0;
+        globalVars.virtualCoordz[i] = 0.0;
     }
     return globalVars;
 }

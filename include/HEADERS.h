@@ -43,6 +43,7 @@ double lennardJonesPotentialCalc(double r);
 double lennardJonesForceCalc(double r);
 void forceCalc(GlobalVars globalVars, int step);
 void velocityCalc(GlobalVars globalVars, int i);
+void fillingCoordsVirtual(GlobalVars globalVars);
 /*-----------ENERGY_FUNCTIONS-------------*/
 void calculateAllEnergies(GlobalVars globalVars);
 /*-----------BERENDSEN_THERMOSTAT---------*/

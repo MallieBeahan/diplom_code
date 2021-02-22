@@ -21,6 +21,9 @@ void mathemathical_modelling(GlobalVars globalVars){
             verletScheme(globalVars);
         }
 
+        //Копирование координат основной ячейки в виртуальные.
+        fillingCoordsVirtual(globalVars);
+
         for (int i = 0; i < PARTICLE_NUMBER; i++){
             //Вычисление сил взаимодействия частиц.
             forceCalc(globalVars, i);
@@ -40,6 +43,5 @@ void mathemathical_modelling(GlobalVars globalVars){
         calculateAllEnergies(globalVars);
         //Подсчет температуры системы.
         globalVars.Temperature[0] = globalVars.Eterm1[0] * T_CONST;
-        printf("%.8f, ", globalVars.coordy[1]);
     }
 }
