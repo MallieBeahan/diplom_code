@@ -97,7 +97,7 @@ void forceCalc(GlobalVars globalVars, int step){
         //Подсчет расстояния между реальными и виртуальными частицами.
         double r = sqrt((globalVars.coordx[step] - globalVars.virtualCoordx[i]) * (globalVars.coordx[step] - globalVars.virtualCoordx[i]) + (globalVars.coordy[step] - globalVars.virtualCoordy[i]) * (globalVars.coordy[step] - globalVars.virtualCoordy[i]) + (globalVars.coordz[step] - globalVars.virtualCoordz[i]) * (globalVars.coordz[step] - globalVars.virtualCoordz[i]));
         //Учет обрезания потенциала
-        //if (r <= RCUT) {
+        if (r <= RCUT) {
             //Вычисление потенциала Леннарда-Джонса (со сдвигом при обрезании потенциала).
             double U = lennardJonesPotentialCalc(r) - lennardJonesPotentialCalc(RCUT);
             //Вычисление потенциальной энергии на одну частицу.
@@ -108,7 +108,7 @@ void forceCalc(GlobalVars globalVars, int step){
             globalVars.F_temp[1] += FU * (globalVars.coordy[step] - globalVars.virtualCoordy[i])/r;
             globalVars.F_temp[2] += FU * (globalVars.coordz[step] - globalVars.virtualCoordz[i])/r;
         }
-    //}
+    }
     //Замена сил с предыдщуего шага на новые.
     globalVars.Fx[step] += globalVars.F_temp[0];
     globalVars.Fy[step] += globalVars.F_temp[1];
