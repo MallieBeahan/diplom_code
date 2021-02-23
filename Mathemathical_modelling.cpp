@@ -37,7 +37,5 @@ void mathemathical_modelling(GlobalVars globalVars){
         }
         //Подсчет энергий на одну частицу(потенциальная, кинетическая, тепловая, внутренняя, полная).
         calculateAllEnergies(globalVars);
-        //Подсчет температуры системы.
-        globalVars.Temperature[0] = globalVars.Eterm1[0] * T_CONST;
     }
 }

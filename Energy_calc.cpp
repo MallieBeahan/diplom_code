@@ -32,4 +32,5 @@ void calculateAllEnergies(GlobalVars globalVars){
     globalVars.Eterm1[0] = Eterm/PARTICLE_NUMBER;
     globalVars.Eint1[0] = globalVars.Eterm1[0] + globalVars.Epot1[0];
     globalVars.E1[0] = globalVars.Ekin1[0] + globalVars.Epot1[0];
+    globalVars.Temperature[0] = globalVars.Eterm1[0] * T_CONST;
 }

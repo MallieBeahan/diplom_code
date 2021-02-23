@@ -203,18 +203,19 @@ void getVCM(GlobalVars globalVars){
 }
 
 void execCoordsAndSpeed(GlobalVars globalVars){
-    globalVars.coordx[0] = 0.25;
-    globalVars.coordy[0] = 0.75;
-    globalVars.coordz[0] = 0.5;
-    globalVars.coordx[1] = 0.75;
-    globalVars.coordy[1] = 0.75;
-    globalVars.coordz[1] = 0.5;
+    globalVars.coordx[0] = 0.35;
+    globalVars.coordy[0] = 0.25;
+    globalVars.coordz[0] = 0.0;
+    globalVars.coordx[1] = 0.65;
+    globalVars.coordy[1] = 0.25;
+    globalVars.coordz[1] = 0.0;
     globalVars.Vx[0] = 1;
     globalVars.Vy[0] = 1;
     globalVars.Vz[0] = 0;
     globalVars.Vx[1] = -1;
     globalVars.Vy[1] = 1;
     globalVars.Vz[1] = 0;
+    fillingCoordsVirtual(globalVars);
 }
 
 void printVerletStep(GlobalVars globalVars, int step){

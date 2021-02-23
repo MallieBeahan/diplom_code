@@ -14,7 +14,7 @@
 # define SYSTEM_PARAMS_H
 
 //Колличество шагов, которое будет проделано.
-const int NUMBER_OF_STEPS = 1000;
+const int NUMBER_OF_STEPS = 500;
 //Начальный шаг
 const int STARTING_STEP = 0;
 //Постоянная Больцмана
@@ -41,9 +41,9 @@ const double DELTA_T = 0.002;
 //Размер области по оси Z
 //const double LZ = NUMKRIST_Z * REBROKR;
 //Объем системы
-const double LX = 5;
-const double LY = 5;
-const double LZ = 5;
+const double LX = 1.0;
+const double LY = 1.0;
+const double LZ = 1.0;
 const double VOLUME = LX * LY * LZ;
 //Учет ПГУ.
 const bool PGU = true;

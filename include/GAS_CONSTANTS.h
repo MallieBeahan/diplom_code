@@ -33,7 +33,7 @@ const double EPSILON_LJ4 = EPSILON_LJ * 4;
 //Константа, для подсчета потенциала Леннарда-Джонса
 const double EPSILON_LJ24 = EPSILON_LJ * 24;
 //Радиус обрезания
-const double RCUT = 2.5 * SIGMA_LJ;
+const double RCUT = (2.5 * SIGMA_LJ) * (2.5 * SIGMA_LJ);
 //Число степеней свободы
 const double D = 3;
 //Константа для расчета температуры
