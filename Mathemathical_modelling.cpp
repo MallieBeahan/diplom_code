@@ -34,10 +34,6 @@ void mathemathical_modelling(GlobalVars globalVars){
                 //Термостат Берендсена.
                 //berendsenThermostat(globalVars);
             }
-            //Замена сил с предыдщуего шага на новые.
-            globalVars.Fx[i] = globalVars.F_temp[0];
-            globalVars.Fy[i] = globalVars.F_temp[1];
-            globalVars.Fz[i] = globalVars.F_temp[2];
         }
         //Подсчет энергий на одну частицу(потенциальная, кинетическая, тепловая, внутренняя, полная).
         calculateAllEnergies(globalVars);
