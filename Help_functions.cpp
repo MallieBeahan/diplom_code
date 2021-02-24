@@ -215,7 +215,6 @@ void execCoordsAndSpeed(GlobalVars globalVars){
     globalVars.Vx[1] = -1;
     globalVars.Vy[1] = 1;
     globalVars.Vz[1] = 0;
-    fillingCoordsVirtual(globalVars);
 }
 
 void printVerletStep(GlobalVars globalVars, int step){
@@ -240,4 +239,10 @@ void printEnergyStep(GlobalVars globalVars, int step){
     printf("Eint1 = %.8f\n", globalVars.Eint1[0]);
     printf("E1 = %.8f\n", globalVars.E1[0]);
     printf("Temperature = %.8f\n\n", globalVars.Temperature[0]);
+}
+
+void adjustForce(GlobalVars globalVars, int i){
+    globalVars.Fx[i] = globalVars.F_temp[0];
+    globalVars.Fy[i] = globalVars.F_temp[1];
+    globalVars.Fz[i] = globalVars.F_temp[2];
 }

@@ -37,11 +37,12 @@ double *memoryAllocatingAndZeroingArgs(int length);
 void execCoordsAndSpeed(GlobalVars globalVars);
 void printVerletStep(GlobalVars globalVars, int step);
 void printEnergyStep(GlobalVars globalVars, int step);
+void adjustForce(GlobalVars globalVars, int i);
 /*-----------VERLET_SCHEME----------------*/
 void verletScheme(GlobalVars globalVars);
 double lennardJonesPotentialCalc(double r);
 double lennardJonesForceCalc(double r);
-void forceCalc(GlobalVars globalVars, int step);
+void forceCalc(GlobalVars globalVars, int j);
 void velocityCalc(GlobalVars globalVars, int i);
 void fillingCoordsVirtual(GlobalVars globalVars);
 /*-----------ENERGY_FUNCTIONS-------------*/

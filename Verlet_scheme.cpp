@@ -39,6 +39,7 @@ void fillingCoordsVirtual(GlobalVars globalVars){
 
 void velocityCalc(GlobalVars globalVars, int i)
 {
+    //Подсчет скоростей частицы. (F_temp - новая сила, F - старая).
     globalVars.Vx[i] = globalVars.Vx[i] + ((globalVars.F_temp[0] + globalVars.Fx[i])/(2 * MASS)) * DELTA_T;
     globalVars.Vy[i] = globalVars.Vy[i] + ((globalVars.F_temp[1] + globalVars.Fy[i])/(2 * MASS)) * DELTA_T;
     globalVars.Vz[i] = globalVars.Vz[i] + ((globalVars.F_temp[2] + globalVars.Fz[i])/(2 * MASS)) * DELTA_T;
@@ -54,67 +55,51 @@ double lennardJonesPotentialCalc(double r){
     return EPSILON_LJ4 * ((sigmar*sigmar)-sigmar);
 }
 
-void forceCalc(GlobalVars globalVars, int step){
-    double Epot = 0;
+void forceCalc(GlobalVars globalVars, int j){
+    double r = 0.0;
+    double U = 0.0;
+    double FU = 0.0;
     globalVars.F_temp[0] = 0.0;
     globalVars.F_temp[1] = 0.0;
     globalVars.F_temp[2] = 0.0;
+    globalVars.Epot[j] = 0.0;
 
     //Подсчет сил для реальных частиц.
     for (int i = 0; i < PARTICLE_NUMBER; i++){
-        if (i != step) {
+        if (j != i) {
             //Подсчет расстояния между частицами.
-            double r = sqrt((globalVars.coordx[step] - globalVars.coordx[i]) * (globalVars.coordx[step] - globalVars.coordx[i]) + (globalVars.coordy[step] - globalVars.coordy[i]) * (globalVars.coordy[step] - globalVars.coordy[i]) + (globalVars.coordz[step] - globalVars.coordz[i]) * (globalVars.coordz[step] - globalVars.coordz[i]));
+            r = sqrt((globalVars.coordx[j] - globalVars.coordx[i]) * (globalVars.coordx[j] - globalVars.coordx[i]) + (globalVars.coordy[j] - globalVars.coordy[i]) * (globalVars.coordy[j] - globalVars.coordy[i]) + (globalVars.coordz[j] - globalVars.coordz[i]) * (globalVars.coordz[j] - globalVars.coordz[i]));
             //Учет обрезания потенциала.
             if (r <= RCUT) {
                 //Вычисление потенциала Леннарда-Джонса (со сдвигом при обрезании потенциала).
-                double U = lennardJonesPotentialCalc(r) - lennardJonesPotentialCalc(RCUT);
+                U = lennardJonesPotentialCalc(r) - lennardJonesPotentialCalc(RCUT);
                 //Вычисление потенциальной энергии на одну частицу.
-                Epot += U/2;
+                globalVars.Epot[j] += U/2;
                 //Вычисление сил взаимодействия между частицами.
-                double FU = lennardJonesForceCalc(r);
-                globalVars.F_temp[0] += FU * (globalVars.coordx[step] - globalVars.coordx[i])/r;
-                globalVars.F_temp[1] += FU * (globalVars.coordy[step] - globalVars.coordy[i])/r;
-                globalVars.F_temp[2] += FU * (globalVars.coordz[step] - globalVars.coordz[i])/r;
+                FU = lennardJonesForceCalc(r);
+                globalVars.F_temp[0] = globalVars.F_temp[0] + (FU * ((globalVars.coordx[j] - globalVars.coordx[i])/r));
+                globalVars.F_temp[1] = globalVars.F_temp[1] + (FU * ((globalVars.coordy[j] - globalVars.coordy[i])/r));
+                globalVars.F_temp[2] = globalVars.F_temp[2] + (FU * ((globalVars.coordz[j] - globalVars.coordz[i])/r));
             }
         }
     }
-
-    //Добавление локальной силы и энергии в глобальные.
-    globalVars.Fx[step] = globalVars.F_temp[0];
-    globalVars.Fy[step] = globalVars.F_temp[1];
-    globalVars.Fz[step] = globalVars.F_temp[2];
-    globalVars.Epot[step] = Epot;
-
-    //Обнуление переменных, для последующего просчета виртуальных частиц.
-    globalVars.F_temp[0] = 0.0;
-    globalVars.F_temp[1] = 0.0;
-    globalVars.F_temp[2] = 0.0;
-    Epot = 0.0;
-
     //Подсчет сил для виртуальных частиц.
     for (int i = 0; i < PARTICLE_NUMBER * 26; i++){
         //Подсчет расстояния между реальными и виртуальными частицами.
-        double r = sqrt((globalVars.coordx[step] - globalVars.virtualCoordx[i]) * (globalVars.coordx[step] - globalVars.virtualCoordx[i]) + (globalVars.coordy[step] - globalVars.virtualCoordy[i]) * (globalVars.coordy[step] - globalVars.virtualCoordy[i]) + (globalVars.coordz[step] - globalVars.virtualCoordz[i]) * (globalVars.coordz[step] - globalVars.virtualCoordz[i]));
+        r = sqrt((globalVars.coordx[j] - globalVars.virtualCoordx[i]) * (globalVars.coordx[j] - globalVars.virtualCoordx[i]) + (globalVars.coordy[j] - globalVars.virtualCoordy[i]) * (globalVars.coordy[j] - globalVars.virtualCoordy[i]) + (globalVars.coordz[j] - globalVars.virtualCoordz[i]) * (globalVars.coordz[j] - globalVars.virtualCoordz[i]));
         //Учет обрезания потенциала
         if (r <= RCUT) {
             //Вычисление потенциала Леннарда-Джонса (со сдвигом при обрезании потенциала).
-            double U = lennardJonesPotentialCalc(r) - lennardJonesPotentialCalc(RCUT);
+            U = lennardJonesPotentialCalc(r) - lennardJonesPotentialCalc(RCUT);
             //Вычисление потенциальной энергии на одну частицу.
-            Epot += U/2;
+            globalVars.Epot[j] += U/2;
             //Вычисление сил взаимодействия между частицами.
-            double FU = lennardJonesForceCalc(r);
-            globalVars.F_temp[0] += FU * (globalVars.coordx[step] - globalVars.virtualCoordx[i])/r;
-            globalVars.F_temp[1] += FU * (globalVars.coordy[step] - globalVars.virtualCoordy[i])/r;
-            globalVars.F_temp[2] += FU * (globalVars.coordz[step] - globalVars.virtualCoordz[i])/r;
+            FU = lennardJonesForceCalc(r);
+            globalVars.F_temp[0] = globalVars.F_temp[0] + (FU * ((globalVars.coordx[j] - globalVars.virtualCoordx[i])/r));
+            globalVars.F_temp[1] = globalVars.F_temp[1] + (FU * ((globalVars.coordy[j] - globalVars.virtualCoordy[i])/r));
+            globalVars.F_temp[2] = globalVars.F_temp[2] + (FU * ((globalVars.coordz[j] - globalVars.virtualCoordz[i])/r));
         }
     }
-    //Замена сил с предыдщуего шага на новые.
-    globalVars.Fx[step] += globalVars.F_temp[0];
-    globalVars.Fy[step] += globalVars.F_temp[1];
-    globalVars.Fz[step] += globalVars.F_temp[2];
-    //Замена потенциальной энергии на новую.
-    globalVars.Epot[step] += Epot;
 }
 
 void verletScheme(GlobalVars globalVars){
@@ -124,7 +109,7 @@ void verletScheme(GlobalVars globalVars){
         globalVars.coordy[i] += globalVars.Vy[i] * DELTA_T + (globalVars.Fy[i]/(2 * MASS)) * DELTA_T * DELTA_T;
         globalVars.coordz[i] += globalVars.Vz[i] * DELTA_T + (globalVars.Fz[i]/(2 * MASS)) * DELTA_T * DELTA_T;
 
-        //Переодические граничные условия
+        //Периодические граничные условия
         if (PGU == true){
             if (globalVars.coordx[i] >= LX) {
                 globalVars.coordx[i] -= LX;

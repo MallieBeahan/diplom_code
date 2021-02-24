@@ -34,6 +34,8 @@ void mathemathical_modelling(GlobalVars globalVars){
                 //Термостат Берендсена.
                 //berendsenThermostat(globalVars);
             }
+            //Присваивание силы подсчитанной на текущем шаге.
+            adjustForce(globalVars, i);
         }
         //Подсчет энергий на одну частицу(потенциальная, кинетическая, тепловая, внутренняя, полная).
         calculateAllEnergies(globalVars);
