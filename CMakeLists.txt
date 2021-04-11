@@ -3,4 +3,14 @@ project(New_diplom)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(New_diplom main.cpp)
+include_directories(.)
+
+add_executable(New_diplom
+        Gas_constants.h
+        Global_vars.h
+        Help_functions.h
+        main.cpp
+        Molecule.h
+        Params.h
+        Speed_generation.h
+        Start_conditions.h)

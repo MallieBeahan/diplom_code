@@ -9,6 +9,32 @@
 #include "Start_conditions.h"
 #include "Help_functions.h"
 
+void filling_coord_virtual()
+{
+    for (int i = 0; i < PARTICLENUMBER; i++)
+    {
+        int j=0;
+        double ZZ=-LZ;
+        for(int kk=0;kk<3;kk++){
+            double YY=-LY;
+            for(int ll=0;ll<3;ll++){
+                double XX = -LX;
+                for(int mm=0;mm<3;mm++){
+                    if(XX!=0.0||YY!=0.0||ZZ!=0.0){
+                        virt_molecules[i * 26 + j].Coords.x = molecules[i].Coords.x + XX;
+                        virt_molecules[i * 26 + j].Coords.y = molecules[i].Coords.y + YY;
+                        virt_molecules[i * 26 + j].Coords.z = molecules[i].Coords.z + ZZ;
+                        j++;
+                    }
+                    XX+=LX;
+                }
+                YY+=LY;
+            }
+            ZZ+=LZ;
+        }
+    }
+}
+
 double getTemp()//Расчет температуры 1 молекулы системы
 {
     return Eterm1*T_CONST;
@@ -91,12 +117,9 @@ Vector ForceCalc(int i)//Вычисление силы, вириалов и по
         if(j != i){
             rVec=molecules[i].Coords.getDiff(molecules[j].Coords);
             r2= rVec.getAbsSquare();
-            //if(r2<=RCUT2){//Учет обрезания потенциала
-                //r=sqrt(r2);
+            if(r2 <= RCUT2){//Учет обрезания потенциала
                 //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
-                //Правильно
-                //U = PotLJ(r2)-RCUT_POT;
-                U = PotLJ(r2);
+                U = PotLJ(r2)-RCUT_POT;
                 localEpot+=U;
                 //Вычисление силы потенциала(U`(r))(Используем r^2)
                 FU = FPotLJ(r2);
@@ -108,31 +131,32 @@ Vector ForceCalc(int i)//Вычисление силы, вириалов и по
                 localF.x += Fx;
                 localF.y += Fy;
                 localF.z += Fz;
-            //}
+            }
         }
     }
-    localEpot/=2;//Деление на 2 так так энергия разделяется на 2 частицы
+    //Деление на 2 так так энергия разделяется на 2 частицы
+    localEpot/=2;
     //Вычисление потенциала между виртуальными молекулами
-    //for(int j=0;j<PARTICLENUMBER*26;j++){
-    //    rVec=molecules[i].Coords.getDiff(virt_molecules[j].Coords);
-    //    r2= rVec.getAbsSquare();
-    //    if(r2<=RCUT2){//Учет обрезания потенциала
-    //        //r=sqrt(r2);
-    //        //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
-    //        U = PotLJ(r2)-RCUT_POT;
-    //        localEpot+=U;
-    //        //Вычисление силы потенциала(U`(r))
-    //        FU = FPotLJ(r2);
-    //        //Вычисление вектора силы
-    //        Fx= FU*rVec.x/r2;
-    //        Fy= FU*rVec.y/r2;
-    //        Fz= FU*rVec.z/r2;
+    for(int j=0;j<PARTICLENUMBER*26;j++){
+        rVec=molecules[i].Coords.getDiff(virt_molecules[j].Coords);
+        r2= rVec.getAbsSquare();
+        //Учет обрезания потенциала
+        if(r2<=RCUT2){
+            //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
+            U = PotLJ(r2)-RCUT_POT;
+            localEpot+=U;
+            //Вычисление силы потенциала(U`(r))
+            FU = FPotLJ(r2);
+            //Вычисление вектора силы
+            Fx= FU*rVec.x/r2;
+            Fy= FU*rVec.y/r2;
+            Fz= FU*rVec.z/r2;
 
-    //        localF.x += Fx;
-    //        localF.y += Fy;
-    //        localF.z += Fz;
-    //    }
-    //}
+            localF.x += Fx;
+            localF.y += Fy;
+            localF.z += Fz;
+        }
+    }
     //Запись локальных переменных в глобальные
     F.x+=localF.x;
     F.y+=localF.y;
@@ -177,11 +201,14 @@ void MD()//Основная функция расчетов МД
     for(int n=startingStep;n<NSTEPS;n++){
         double Epot=0,Ekin=0,Eterm=0,Eint=0,E=0;// Обнуление энергии на каждом шаге
         if(n!=startingStep){
-            CoordVerle();//Расчет координат по схеме Верле
+            //Расчет координат по схеме Верле
+            CoordVerle();
         }
-        //filling_coord_virtual();//Копирование координат основной ячейки в виртуальные
+        //Копирование координат основной ячейки в виртуальные
+        filling_coord_virtual();
         for(int i=0;i<PARTICLENUMBER;i++){
-            Vector F = ForceCalc(i);//Расчет силы и потенциальной энергии частицы
+            //Расчет силы и потенциальной энергии частицы
+            Vector F = ForceCalc(i);
             if(n!=startingStep){
                 //Вычисление вектора скорости молекулы
                 molecules[i].Velocity = VelocityCalc(molecules[i],F);
@@ -198,23 +225,11 @@ void MD()//Основная функция расчетов МД
         E1=Ekin1+Epot1;//Расчет полной энергии на 1 частицу
         T = getTemp();//Расчет температуры системы
         T_av+=T;
-        //printStep(n);
-        //printf("Step = %d\n", n);
-        //printf("\tEkin1 = %.8f\n", Ekin1);
-        //printf("\tEpot1 = %.8f\n", Epot1);
-        //printf("\tE1 = %.8f\n", E1);
-        //printf("\tEterm1 = %.8f\n", Eterm1);
-        //printf("\tEint1 = %.8f\n", Eint1);
-        //printf("\tT1 = %.8f\n\n", T);
-        printf("%.8f, ", molecules[3].Coords.y);
     }
 
 }
 
 int main() {
-    startFourParticles();
-
     MD();
-
     return 0;
 }
