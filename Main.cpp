@@ -9,6 +9,34 @@
 #include "Start_conditions.h"
 #include "Help_functions.h"
 
+//Расчет температуры 1 молекулы системы
+double getTemp()
+{
+    return Eterm1*T_CONST;
+}
+
+void berendsenBarostat(){
+    double hi = (1 - (((DELTA_T/TAU_BER2)) * (PREF_PRESSURE - P)));
+    double mu = pow(hi, 0.33333333);
+    for (int i = 0; i < PARTICLENUMBER; i++){
+        molecules[i].Coords.x *= mu;
+        molecules[i].Coords.y *= mu;
+        molecules[i].Coords.z *= mu;
+    }
+    LX *= mu;
+    LY *= mu;
+    LZ *= mu;
+}
+
+void berendsenThermostat(){
+    double lambda = sqrt(1 + (DELTA_T/TAU_BER) * ((PREF_TEMP/T) - 1));
+    for(int i = 0; i < PARTICLENUMBER; i++){
+        molecules[i].Velocity.x *= lambda;
+        molecules[i].Velocity.y *= lambda;
+        molecules[i].Velocity.z *= lambda;
+    }
+}
+
 void filling_coord_virtual()
 {
     for (int i = 0; i < PARTICLENUMBER; i++)
@@ -35,12 +63,8 @@ void filling_coord_virtual()
     }
 }
 
-double getTemp()//Расчет температуры 1 молекулы системы
-{
-    return Eterm1*T_CONST;
-}
-
-Vector getVCM()//Расчет скорости центра масс системы
+//Расчет скорости центра масс системы
+Vector getVCM()
 {
     double x=0,y=0,z=0;
     for(int i=0;i<PARTICLENUMBER;i++){
@@ -51,7 +75,33 @@ Vector getVCM()//Расчет скорости центра масс систе�
     return {x/PARTICLENUMBER,y/PARTICLENUMBER,z/PARTICLENUMBER};
 }
 
-double getAvgEterm()//Расчет тепловой энергии системы
+double PressureCalc()//Расчет тензоров давления и давления системы
+{
+    Vector VCM = getVCM();
+    double sumMVx=0.0,sumMVy=0.0,sumMVz=0.0;
+    double sumVirialsx=0.0,sumVirialsy=0.0,sumVirialsz=0.0;
+
+    for(int i=0;i<PARTICLENUMBER;i++){
+        sumMVx+=(molecules[i].Velocity.x-VCM.x)*(molecules[i].Velocity.x-VCM.x);
+        sumMVy+=(molecules[i].Velocity.y-VCM.y)*(molecules[i].Velocity.y-VCM.y);
+        sumMVz+=(molecules[i].Velocity.z-VCM.z)*(molecules[i].Velocity.z-VCM.z);
+
+        sumVirialsx+=molecules[i].Virial.x;
+        sumVirialsy+=molecules[i].Virial.y;
+        sumVirialsz+=molecules[i].Virial.z;
+    }
+    sumMVx=MASSA*sumMVx;
+    sumMVy=MASSA*sumMVy;
+    sumMVz=MASSA*sumMVz;
+    P_tensors[0][0]=(sumMVx+sumVirialsx)/VOLUME;
+    P_tensors[1][1]=(sumMVy+sumVirialsy)/VOLUME;
+    P_tensors[2][2]=(sumMVz+sumVirialsz)/VOLUME;
+    //Расчет давления по XX,YY,ZZ компонентам
+    return (P_tensors[0][0]+P_tensors[1][1]+P_tensors[2][2])/3;
+}
+
+//Расчет тепловой энергии системы
+double getAvgEterm()
 {
     double Eterm=0;
     for(int i=0;i<PARTICLENUMBER;i++){
@@ -60,7 +110,8 @@ double getAvgEterm()//Расчет тепловой энергии систем�
     return Eterm/PARTICLENUMBER;
 }
 
-double getAvgEpot()//Расчет потенциальной энергии системы
+//Расчет потенциальной энергии системы
+double getAvgEpot()
 {
     double Epot=0;
     for(int i=0;i<PARTICLENUMBER;i++){
@@ -69,7 +120,8 @@ double getAvgEpot()//Расчет потенциальной энергии си
     return Epot/PARTICLENUMBER;
 }
 
-double getAvgEkin()//Расчет кинетичетичекой энергии системы
+//Расчет кинетичетичекой энергии системы
+double getAvgEkin()
 {
     double Ekin=0;
     for(int i=0;i<PARTICLENUMBER;i++){
@@ -78,28 +130,35 @@ double getAvgEkin()//Расчет кинетичетичекой энергии 
     return Ekin/PARTICLENUMBER;
 }
 
-double PotLJ(double r)//Вычисление потенциала Леннарда-Джонса(используем r^2)
+//Вычисление потенциала Леннарда-Джонса(используем r^2)
+double PotLJ(double r)
 {
     double sigmar = pow(SIGMA_LJ2/r,3);
     return EPSILON_LJ4*((sigmar*sigmar)-sigmar);
 }
 
-double FPotLJ(double r)//Вычисление силы потенциала(используем r^2)
+//Вычисление силы потенциала(используем r^2)
+double FPotLJ(double r)
 {
     double sigmar = pow(SIGMA_LJ2/r,3);
     return EPSILON_LJ24*(2*(sigmar*sigmar) - sigmar);
 }
 
-Vector ForceCalc(int i)//Вычисление силы, вириалов и потенциальной энергии
+//Вычисление силы, вириалов и потенциальной энергии
+Vector ForceCalc(int i)
 {
 
     //Сила действующая на частицу
     Vector F = {0.0,0.0,0.0};
+    //Вириал
+    Vector Virial= {0.0,0.0,0.0};
     //Потенциальная энергия
     double Epot=0.0;
     //Локальные переменные для каждого потока
     //Сила
     Vector localF = {0.0,0.0,0.0};
+    //Вириал
+    Vector localVirial= {0.0,0.0,0.0};
     //Потенциальная энергия
     double localEpot = 0.0;
 
@@ -117,7 +176,8 @@ Vector ForceCalc(int i)//Вычисление силы, вириалов и по
         if(j != i){
             rVec=molecules[i].Coords.getDiff(molecules[j].Coords);
             r2= rVec.getAbsSquare();
-            if(r2 <= RCUT2){//Учет обрезания потенциала
+            //Учет обрезания потенциала
+            if(r2 <= RCUT2){
                 //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
                 U = PotLJ(r2)-RCUT_POT;
                 localEpot+=U;
@@ -131,9 +191,16 @@ Vector ForceCalc(int i)//Вычисление силы, вириалов и по
                 localF.x += Fx;
                 localF.y += Fy;
                 localF.z += Fz;
+                //Вычисление вириалов
+                localVirial.x+=Fx*rVec.x;
+                localVirial.y+=Fy*rVec.y;
+                localVirial.z+=Fz*rVec.z;
             }
         }
     }
+    localVirial.x/=2;
+    localVirial.y/=2;
+    localVirial.z/=2;
     //Деление на 2 так так энергия разделяется на 2 частицы
     localEpot/=2;
     //Вычисление потенциала между виртуальными молекулами
@@ -155,6 +222,10 @@ Vector ForceCalc(int i)//Вычисление силы, вириалов и по
             localF.x += Fx;
             localF.y += Fy;
             localF.z += Fz;
+            //Вычисление вириалов
+            localVirial.x+=Fx*rVec.x;
+            localVirial.y+=Fy*rVec.y;
+            localVirial.z+=Fz*rVec.z;
         }
     }
     //Запись локальных переменных в глобальные
@@ -162,6 +233,10 @@ Vector ForceCalc(int i)//Вычисление силы, вириалов и по
     F.y+=localF.y;
     F.z+=localF.z;
     Epot+=localEpot;
+    Virial.x+=localVirial.x;
+    Virial.y+=localVirial.y;
+    Virial.z+=localVirial.z;
+    molecules[i].Virial=Virial;
     molecules[i].Epot=Epot;
     return F;
 
@@ -225,6 +300,8 @@ void MD()//Основная функция расчетов МД
         E1=Ekin1+Epot1;//Расчет полной энергии на 1 частицу
         T = getTemp();//Расчет температуры системы
         T_av+=T;
+        P = PressureCalc();//Расчет давления системы
+        P_av+=P;
     }
 
 }
