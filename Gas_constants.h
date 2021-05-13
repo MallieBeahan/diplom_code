@@ -24,6 +24,8 @@ const double KBOLTZMAN = 1.380648528;
 const double START_TEMP = 2.7315;
 //Предпочтительная температура системы для термостата
 const double PREF_TEMP = 2.7315;
+//Предпочтительное давление системы для баростата
+const double PREF_PRESSURE = 2;
 const double SIGMA_Maxwell = sqrt(KBOLTZMAN*START_TEMP/MASSA);
 const double Tau_Ber=1.0;
 //Параметры потенциала Леннарда Джонса

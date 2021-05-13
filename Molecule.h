@@ -36,6 +36,8 @@ public:
     Vector Velocity;
     //Сила, действующая на частицу
     Vector Force;
+    //Вириал
+    Vector Virial;
     //Энергия отдельной частицы(потенциальная)
     double Epot;
     double getEkin(){
@@ -62,6 +64,7 @@ public:
         Coords = Vector();
         Velocity = Vector();
         Force = Vector();
+        Virial = Vector();
         Epot=0;
     };
 };

@@ -21,4 +21,10 @@ const bool backup=false;
 //Начальный шаг(если есть бекап то не равен 0)
 int startingStep=0;
 
+//Постоянная для термостата Берендсена
+const double TAU_BER = 1.0;
+
+//Постоянная для баростата Берендсена
+const double TAU_BER2 = 1.0;
+
 #endif //NEW_DIPLOM_PARAMS_H
