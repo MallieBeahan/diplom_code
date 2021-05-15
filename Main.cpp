@@ -287,7 +287,8 @@ void MD()//Основная функция расчетов МД
             if(n!=startingStep){
                 //Вычисление вектора скорости молекулы
                 molecules[i].Velocity = VelocityCalc(molecules[i],F);
-                //Thermostat();
+                //berendsenThermostat();
+                berendsenBarostat();
             }
             //Замена вектора силы предыдущего шага на силу текущего
             molecules[i].Force = F;
@@ -302,11 +303,19 @@ void MD()//Основная функция расчетов МД
         T_av+=T;
         P = PressureCalc();//Расчет давления системы
         P_av+=P;
+        printf("Step = %d\n", n);
+        printf("\tTemperature = %.8f N.E\n", T);
+        printf("\tPressure = %.8f N.E\n", P);
+        printf("\tLX = %.8f\n", LX);
+        printf("\tLX = %.8f\n", LY);
+        printf("\tLX = %.8f\n\n", LZ);
+        //printf("\tVolume = %.8f\n\n", VOLUME);
     }
 
 }
 
 int main() {
+    startPrimCube();
     MD();
     return 0;
 }

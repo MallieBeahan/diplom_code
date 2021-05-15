@@ -77,4 +77,54 @@ void startFourParticlesVirtual(){
     molecules[3].Velocity = Vector(-1.0,-2.0,0.0);
 }
 
+void startingCoordsPrimCube(){
+    double x=0,y=0,z=0;
+    if(!PGU) {
+        for(int i=0;i<PARTICLENUMBER;i++){
+            if(z>NUMKRIST_X){
+                y++;
+                z=0;
+            }
+            if(y>NUMKRIST_X){
+                x++;
+                z=0;
+            }
+            molecules[i].Coords = {x*REBROKR,y*REBROKR,z*REBROKR};
+            z++;
+        }
+    }
+    else {
+        for(int i=0;i<PARTICLENUMBER;i++){
+            if(z>NUMKRIST_X-1){
+                y++;
+                z=0;
+            }
+            if(y>NUMKRIST_X-1){
+                x++;
+                y=0;
+            }
+            molecules[i].Coords={x*REBROKR,y*REBROKR,z*REBROKR};
+            z++;
+        }
+    }
+}
+
+void startPrimCube(){
+    //Нет ПГУ
+    if(!PGU)
+    {
+        PARTICLENUMBER = (NUMKRIST_X+1)*(NUMKRIST_X+1)*(NUMKRIST_X+1);
+        molecules = new Molecule[PARTICLENUMBER];
+        virt_molecules = new Molecule[PARTICLENUMBER*26];
+
+    }else //Во всех остальных случаях считаем с ПГУ
+    {
+        PARTICLENUMBER = NUMKRIST_X*NUMKRIST_X*NUMKRIST_X;
+        molecules = new Molecule[PARTICLENUMBER];
+        virt_molecules = new Molecule[PARTICLENUMBER*26];
+    }
+    startingCoordsPrimCube();
+    speedGeneration();
+}
+
 #endif //NEW_DIPLOM_START_CONDITIONS_H
