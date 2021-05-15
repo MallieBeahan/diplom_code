@@ -21,11 +21,11 @@ const double D = 3;
 //Постоянная Больцмана
 const double KBOLTZMAN = 1.380648528;
 //Стартовая температура системы
-const double START_TEMP = 2.7315;
+const double START_TEMP = 5.0;
 //Предпочтительная температура системы для термостата
 const double PREF_TEMP = 2.7315;
 //Предпочтительное давление системы для баростата
-const double PREF_PRESSURE = 1;
+const double PREF_PRESSURE = 2;
 //Константа для генерации скоростей по Максвелу
 const double SIGMA_Maxwell = sqrt(KBOLTZMAN*START_TEMP/MASSA);
 //Время взаимодействия с тепловым резервуаром для термостата Берендсена

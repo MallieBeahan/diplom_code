@@ -6,7 +6,7 @@
 #define NEW_DIPLOM_PARAMS_H
 
 //Количество шагов
-const int NSTEPS = 1000;
+const int NSTEPS = 100;
 //Количество кристалических решеток по оси X
 const int NUMKRIST_X = 10;
 //Количество кристалических решеток по оси Y
@@ -24,6 +24,6 @@ int startingStep = 0;
 //Постоянная для термостата Берендсена
 const double TAU_BER = 1.0;
 //Постоянная для баростата Берендсена
-const double TAU_BER2 = 50.0;
+const double TAU_BER2 = 100.0;
 
 #endif //NEW_DIPLOM_PARAMS_H

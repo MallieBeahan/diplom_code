@@ -15,4 +15,8 @@ double P;//Давление системы
 double P_tensors[3][3];//Тензоры давления
 double T_av, P_av;
 
+FILE *total_data;//Главный файл вывода программы
+FILE *el_data;
+int BACKUP_FREQ = 100;//Частота бекапа
+
 #endif //NEW_DIPLOM_GLOBAL_VARS_H
