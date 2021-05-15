@@ -154,88 +154,100 @@ Vector ForceCalc(int i)
     Vector Virial= {0.0,0.0,0.0};
     //Потенциальная энергия
     double Epot=0.0;
-    //Локальные переменные для каждого потока
-    //Сила
-    Vector localF = {0.0,0.0,0.0};
-    //Вириал
-    Vector localVirial= {0.0,0.0,0.0};
-    //Потенциальная энергия
-    double localEpot = 0.0;
+    #pragma omp parallel
+    {
+        //Локальные переменные для каждого потока
+        //Сила
+        Vector localF = {0.0, 0.0, 0.0};
+        //Вириал
+        Vector localVirial = {0.0, 0.0, 0.0};
+        //Потенциальная энергия
+        double localEpot = 0.0;
 
-    //Значение потенциала
-    double U=0.0;
-    //Сила потенциала
-    double FU=0.0;
-    //Векторное расстояние между частицами
-    Vector rVec= {0.0,0.0,0.0};
-    double Fx=0.0,Fy=0.0,Fz=0.0;
-    //Расстояние в квадрате
-    double r2=0.0;
-    //Вычисление потенциала между основными молекулами
-    for(int j = 0; j < PARTICLENUMBER; j++){
-        if(j != i){
-            rVec=molecules[i].Coords.getDiff(molecules[j].Coords);
-            r2= rVec.getAbsSquare();
+        //Значение потенциала
+        double U = 0.0;
+        //Сила потенциала
+        double FU = 0.0;
+        //Векторное расстояние между частицами
+        Vector rVec = {0.0, 0.0, 0.0};
+        double Fx = 0.0, Fy = 0.0, Fz = 0.0;
+        //Расстояние в квадрате
+        double r2 = 0.0;
+        //Вычисление потенциала между основными молекулами
+        #pragma omp for
+        for (int j = 0; j < PARTICLENUMBER; j++) {
+            if (j != i) {
+                rVec = molecules[i].Coords.getDiff(molecules[j].Coords);
+                r2 = rVec.getAbsSquare();
+                //Учет обрезания потенциала
+                if (r2 <= RCUT2) {
+                    //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
+                    U = PotLJ(r2) - RCUT_POT;
+                    localEpot += U;
+                    //Вычисление силы потенциала(U`(r))(Используем r^2)
+                    FU = FPotLJ(r2);
+                    //Вычисление вектора силы
+                    Fx = FU * rVec.x / r2;
+                    Fy = FU * rVec.y / r2;
+                    Fz = FU * rVec.z / r2;
+
+                    localF.x += Fx;
+                    localF.y += Fy;
+                    localF.z += Fz;
+                    //Вычисление вириалов
+                    localVirial.x += Fx * rVec.x;
+                    localVirial.y += Fy * rVec.y;
+                    localVirial.z += Fz * rVec.z;
+                }
+            }
+        }
+        localVirial.x /= 2;
+        localVirial.y /= 2;
+        localVirial.z /= 2;
+        //Деление на 2 так так энергия разделяется на 2 частицы
+        localEpot /= 2;
+        //Вычисление потенциала между виртуальными молекулами
+        #pragma omp for
+        for (int j = 0; j < PARTICLENUMBER * 26; j++) {
+            rVec = molecules[i].Coords.getDiff(virt_molecules[j].Coords);
+            r2 = rVec.getAbsSquare();
             //Учет обрезания потенциала
-            if(r2 <= RCUT2){
+            if (r2 <= RCUT2) {
                 //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
-                U = PotLJ(r2)-RCUT_POT;
-                localEpot+=U;
-                //Вычисление силы потенциала(U`(r))(Используем r^2)
+                U = PotLJ(r2) - RCUT_POT;
+                localEpot += U;
+                //Вычисление силы потенциала(U`(r))
                 FU = FPotLJ(r2);
                 //Вычисление вектора силы
-                Fx= FU*rVec.x/r2;
-                Fy= FU*rVec.y/r2;
-                Fz= FU*rVec.z/r2;
+                Fx = FU * rVec.x / r2;
+                Fy = FU * rVec.y / r2;
+                Fz = FU * rVec.z / r2;
 
                 localF.x += Fx;
                 localF.y += Fy;
                 localF.z += Fz;
                 //Вычисление вириалов
-                localVirial.x+=Fx*rVec.x;
-                localVirial.y+=Fy*rVec.y;
-                localVirial.z+=Fz*rVec.z;
+                localVirial.x += Fx * rVec.x;
+                localVirial.y += Fy * rVec.y;
+                localVirial.z += Fz * rVec.z;
             }
         }
+        //Запись локальных переменных в глобальные
+        #pragma omp atomic
+        F.x += localF.x;
+        #pragma omp atomic
+        F.y += localF.y;
+        #pragma omp atomic
+        F.z += localF.z;
+        #pragma omp atomic
+        Epot += localEpot;
+        #pragma omp atomic
+        Virial.x += localVirial.x;
+        #pragma omp atomic
+        Virial.y += localVirial.y;
+        #pragma omp atomic
+        Virial.z += localVirial.z;
     }
-    localVirial.x/=2;
-    localVirial.y/=2;
-    localVirial.z/=2;
-    //Деление на 2 так так энергия разделяется на 2 частицы
-    localEpot/=2;
-    //Вычисление потенциала между виртуальными молекулами
-    for(int j=0;j<PARTICLENUMBER*26;j++){
-        rVec=molecules[i].Coords.getDiff(virt_molecules[j].Coords);
-        r2= rVec.getAbsSquare();
-        //Учет обрезания потенциала
-        if(r2<=RCUT2){
-            //Вычисление потенциала Леннарда-Джонса(U(r))(Со сдвигом при обрезании потенциала)
-            U = PotLJ(r2)-RCUT_POT;
-            localEpot+=U;
-            //Вычисление силы потенциала(U`(r))
-            FU = FPotLJ(r2);
-            //Вычисление вектора силы
-            Fx= FU*rVec.x/r2;
-            Fy= FU*rVec.y/r2;
-            Fz= FU*rVec.z/r2;
-
-            localF.x += Fx;
-            localF.y += Fy;
-            localF.z += Fz;
-            //Вычисление вириалов
-            localVirial.x+=Fx*rVec.x;
-            localVirial.y+=Fy*rVec.y;
-            localVirial.z+=Fz*rVec.z;
-        }
-    }
-    //Запись локальных переменных в глобальные
-    F.x+=localF.x;
-    F.y+=localF.y;
-    F.z+=localF.z;
-    Epot+=localEpot;
-    Virial.x+=localVirial.x;
-    Virial.y+=localVirial.y;
-    Virial.z+=localVirial.z;
     molecules[i].Virial=Virial;
     molecules[i].Epot=Epot;
     return F;
@@ -287,7 +299,7 @@ void MD()//Основная функция расчетов МД
             if(n!=startingStep){
                 //Вычисление вектора скорости молекулы
                 molecules[i].Velocity = VelocityCalc(molecules[i],F);
-                //berendsenThermostat();
+                berendsenThermostat();
                 berendsenBarostat();
             }
             //Замена вектора силы предыдущего шага на силу текущего
@@ -304,12 +316,12 @@ void MD()//Основная функция расчетов МД
         P = PressureCalc();//Расчет давления системы
         P_av+=P;
         printf("Step = %d\n", n);
-        printf("\tTemperature = %.8f N.E\n", T);
-        printf("\tPressure = %.8f N.E\n", P);
+        printf("\tTemperature = %.8f N.E\n", T_av/n);
+        printf("\tPressure = %.8f N.E\n", P_av/n);
         printf("\tLX = %.8f\n", LX);
         printf("\tLX = %.8f\n", LY);
         printf("\tLX = %.8f\n\n", LZ);
-        //printf("\tVolume = %.8f\n\n", VOLUME);
+        printf("\tVolume = %.8f\n\n", VOLUME);
     }
 
 }
