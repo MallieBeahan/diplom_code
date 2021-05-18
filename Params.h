@@ -6,7 +6,7 @@
 #define NEW_DIPLOM_PARAMS_H
 
 //Количество шагов
-const int NSTEPS = 100;
+const int NSTEPS = 100000;
 //Количество кристалических решеток по оси X
 const int NUMKRIST_X = 10;
 //Количество кристалических решеток по оси Y
