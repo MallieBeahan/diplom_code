@@ -11,60 +11,6 @@
 #include "Help_functions.h"
 #include "Backup_func.h"
 
-//Расчет температуры 1 молекулы системы
-double getTemp()
-{
-    return Eterm1*T_CONST;
-}
-
-void berendsenBarostat(){
-    double hi = (1 - (((DELTA_T/TAU_BER2)) * (PREF_PRESSURE - P)));
-    double mu = pow(hi, 0.33333333);
-    for (int i = 0; i < PARTICLENUMBER; i++){
-        molecules[i].Coords.x *= mu;
-        molecules[i].Coords.y *= mu;
-        molecules[i].Coords.z *= mu;
-    }
-    LX *= mu;
-    LY *= mu;
-    LZ *= mu;
-}
-
-void berendsenThermostat(){
-    double lambda = sqrt(1 + (DELTA_T/TAU_BER) * ((PREF_TEMP/T) - 1));
-    for(int i = 0; i < PARTICLENUMBER; i++){
-        molecules[i].Velocity.x *= lambda;
-        molecules[i].Velocity.y *= lambda;
-        molecules[i].Velocity.z *= lambda;
-    }
-}
-
-void filling_coord_virtual()
-{
-    for (int i = 0; i < PARTICLENUMBER; i++)
-    {
-        int j=0;
-        double ZZ=-LZ;
-        for(int kk=0;kk<3;kk++){
-            double YY=-LY;
-            for(int ll=0;ll<3;ll++){
-                double XX = -LX;
-                for(int mm=0;mm<3;mm++){
-                    if(XX!=0.0||YY!=0.0||ZZ!=0.0){
-                        virt_molecules[i * 26 + j].Coords.x = molecules[i].Coords.x + XX;
-                        virt_molecules[i * 26 + j].Coords.y = molecules[i].Coords.y + YY;
-                        virt_molecules[i * 26 + j].Coords.z = molecules[i].Coords.z + ZZ;
-                        j++;
-                    }
-                    XX+=LX;
-                }
-                YY+=LY;
-            }
-            ZZ+=LZ;
-        }
-    }
-}
-
 //Расчет скорости центра масс системы
 Vector getVCM()
 {
@@ -100,6 +46,61 @@ double PressureCalc()//Расчет тензоров давления и дав�
     P_tensors[2][2]=(sumMVz+sumVirialsz)/VOLUME;
     //Расчет давления по XX,YY,ZZ компонентам
     return (P_tensors[0][0]+P_tensors[1][1]+P_tensors[2][2])/3;
+}
+
+//Расчет температуры 1 молекулы системы
+double getTemp()
+{
+    return Eterm1*T_CONST;
+}
+
+void berendsenBarostat(){
+    double hi = (1 - (((DELTA_T/TAU_BER2)) * (PREF_PRESSURE - PressureCalc())));
+    double mu = pow(hi, 0.33333333);
+    for (int i = 0; i < PARTICLENUMBER; i++){
+        molecules[i].Coords.x *= mu;
+        molecules[i].Coords.y *= mu;
+        molecules[i].Coords.z *= mu;
+    }
+    LX *= mu;
+    LY *= mu;
+    LZ *= mu;
+    VOLUME = LX * LY * LZ;
+}
+
+void berendsenThermostat(){
+    double lambda = sqrt(1 + (DELTA_T/TAU_BER) * ((PREF_TEMP/getTemp()) - 1));
+    for(int i = 0; i < PARTICLENUMBER; i++){
+        molecules[i].Velocity.x *= lambda;
+        molecules[i].Velocity.y *= lambda;
+        molecules[i].Velocity.z *= lambda;
+    }
+}
+
+void filling_coord_virtual()
+{
+    for (int i = 0; i < PARTICLENUMBER; i++)
+    {
+        int j=0;
+        double ZZ=-LZ;
+        for(int kk=0;kk<3;kk++){
+            double YY=-LY;
+            for(int ll=0;ll<3;ll++){
+                double XX = -LX;
+                for(int mm=0;mm<3;mm++){
+                    if(XX!=0.0||YY!=0.0||ZZ!=0.0){
+                        virt_molecules[i * 26 + j].Coords.x = molecules[i].Coords.x + XX;
+                        virt_molecules[i * 26 + j].Coords.y = molecules[i].Coords.y + YY;
+                        virt_molecules[i * 26 + j].Coords.z = molecules[i].Coords.z + ZZ;
+                        j++;
+                    }
+                    XX+=LX;
+                }
+                YY+=LY;
+            }
+            ZZ+=LZ;
+        }
+    }
 }
 
 //Расчет тепловой энергии системы
@@ -288,7 +289,8 @@ void CoordVerle()//Расчет координат по схеме Верле
 void MD()//Основная функция расчетов МД
 {
     for(int n=startingStep;n<NSTEPS;n++){
-        double Epot=0,Ekin=0,Eterm=0,Eint=0,E=0;// Обнуление энергии на каждом шаге
+        //Обнуление энергии на каждом шаге
+        double Epot=0,Ekin=0,Eterm=0,Eint=0,E=0;
         if(n!=startingStep){
             //Расчет координат по схеме Верле
             CoordVerle();
@@ -301,12 +303,14 @@ void MD()//Основная функция расчетов МД
             if(n!=startingStep){
                 //Вычисление вектора скорости молекулы
                 molecules[i].Velocity = VelocityCalc(molecules[i],F);
-                berendsenThermostat();
-                //berendsenBarostat();
             }
             //Замена вектора силы предыдущего шага на силу текущего
             molecules[i].Force = F;
         }
+        //Термостат Берендсена после подсчета сил и скоростей
+        berendsenThermostat();
+        //Баростат Берендсена после подсчета сил и скоростей
+        berendsenBarostat();
         //Бекап после расчета координат и скоростей
         if(n % BACKUP_FREQ == 0){
             do_backup(n);
@@ -315,7 +319,7 @@ void MD()//Основная функция расчетов МД
         Epot1 = getAvgEpot();//Расчет потенциальной энергии на 1 частицу
         Ekin1 = getAvgEkin();//Расчет кинетической энергии на 1 частицу
         Eterm1 = getAvgEterm();//Расчет тепловой энергии на 1 частицу
-        Eint1 = Eterm1+Epot1;//Расчет внутренней энергии на 1 частицу
+        Eint1 = Eterm1 + Epot1;//Расчет внутренней энергии на 1 частицу
         E1=Ekin1+Epot1;//Расчет полной энергии на 1 частицу
         T = getTemp();//Расчет температуры системы
         T_av+=T;

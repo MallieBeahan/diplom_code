@@ -1,7 +1,7 @@
 void outputInFile(int i)//Запись данных в файл
 {
-    fprintf(total_data,"%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f\n",T, T_av/(i+1), P, P_av/(i+1), Ekin1, Epot1, E1);
-    std::cout<<T<<" "<<T_av/(i+1)<<" "<<P<<" "<<P_av/(i+1)<<" "<<Ekin1<<" "<<Epot1<<" "<<E1<<std::endl;
+    fprintf(total_data,"%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f\n",T, T_av/(i+1), P, P_av/(i+1), Ekin1, Epot1, E1, LX, LY, LZ);
+    std::cout<<T<<" "<<T_av/(i+1)<<" "<<P<<" "<<P_av/(i+1)<<" "<<Ekin1<<" "<<Epot1<<" "<<E1<<" "<<LX<<" "<<LY<<" "<<LZ<<std::endl;
 }
 
 //Функции бекапа
@@ -55,6 +55,7 @@ static void do_backup(int step/*, double sumtime*/){
     for(int i=0;i<PARTICLENUMBER;i++){
         myfwrite(&molecules[i].Velocity.z,sizeof(molecules[i].Velocity.z),1,file_backup);
     }
+    //Закрытыие файлов
     fclose(file_backup);
     //Удаление старых файлов при необходимости
     if(step > 2*BACKUP_FREQ){
