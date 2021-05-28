@@ -93,10 +93,15 @@ inline double gasdev(int *idum) {
 
 void speedGeneration(){
     int idum = 17;
-    for(int i = 0; i < PARTICLENUMBER; i++){
-        molecules[i].Velocity.x = SIGMA_Maxwell * gasdev(&idum);
-        molecules[i].Velocity.y = SIGMA_Maxwell * gasdev(&idum);
-        molecules[i].Velocity.z = SIGMA_Maxwell * gasdev(&idum);
+    {
+        for(int i = 0; i < PARTICLENUMBER/2; i++){
+            molecules[i].Velocity.x = SIGMA_Maxwell * gasdev(&idum);
+            molecules[i].Velocity.y = SIGMA_Maxwell * gasdev(&idum);
+            molecules[i].Velocity.z = SIGMA_Maxwell * gasdev(&idum);
+            molecules[PARTICLENUMBER-1-i].Velocity.x=-molecules[i].Velocity.x;
+            molecules[PARTICLENUMBER-1-i].Velocity.y=-molecules[i].Velocity.y;
+            molecules[PARTICLENUMBER-1-i].Velocity.z=-molecules[i].Velocity.z;
+        }
     }
 }
 
