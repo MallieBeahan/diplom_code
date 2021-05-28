@@ -16,6 +16,10 @@ double LY = NUMKRIST_Y * REBROKR;
 double LZ = NUMKRIST_Z * REBROKR;
 //Объем системы
 double VOLUME = LX * LY * LZ;
+//Начальное давление системы для коэффициента сжатия
+double P0 = 0.0;
+//Начальный объем системы для коэффициента сжатия
+const double V0 = LX * LY * LZ;
 //Число степеней свободы
 const double D = 3;
 //Постоянная Больцмана

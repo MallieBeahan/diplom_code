@@ -288,6 +288,7 @@ void CoordVerle()//Расчет координат по схеме Верле
 
 void MD()//Основная функция расчетов МД
 {
+    bool startingPressure = true;
     for(int n=startingStep;n<NSTEPS;n++){
         //Обнуление энергии на каждом шаге
         double Epot=0,Ekin=0,Eterm=0,Eint=0,E=0;
@@ -324,6 +325,10 @@ void MD()//Основная функция расчетов МД
         T = getTemp();//Расчет температуры системы
         T_av+=T;
         P = PressureCalc();//Расчет давления системы
+        if (startingPressure){
+            P0 = P;
+            startingPressure = false;
+        }
         P_av+=P;
         outputInFile(n);//Вывод в файл
     }
