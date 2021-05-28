@@ -24,6 +24,6 @@ int startingStep = 0;
 //Постоянная для термостата Берендсена
 const double TAU_BER = 1.0;
 //Постоянная для баростата Берендсена
-const double TAU_BER2 = 100.0;
+const double TAU_BER2 = 1.0;
 
 #endif //NEW_DIPLOM_PARAMS_H

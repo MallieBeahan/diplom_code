@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <sstream>
 #include <assert.h>
-#include <omp.h>
 #include "Start_conditions.h"
 #include "Help_functions.h"
 #include "Backup_func.h"
@@ -21,6 +20,16 @@ Vector getVCM()
         z+=molecules[i].Velocity.z;
     }
     return {x/PARTICLENUMBER,y/PARTICLENUMBER,z/PARTICLENUMBER};
+}
+
+//Расчет тепловой энергии системы
+double getAvgEterm()
+{
+    double Eterm=0;
+    for(int i=0;i<PARTICLENUMBER;i++){
+        Eterm+=molecules[i].getEterm(getVCM());
+    };
+    return Eterm/PARTICLENUMBER;
 }
 
 double PressureCalc()//Расчет тензоров давления и давления системы
@@ -51,7 +60,7 @@ double PressureCalc()//Расчет тензоров давления и дав�
 //Расчет температуры 1 молекулы системы
 double getTemp()
 {
-    return Eterm1*T_CONST;
+    return getAvgEterm() * T_CONST;
 }
 
 void berendsenBarostat(){
@@ -103,15 +112,6 @@ void filling_coord_virtual()
     }
 }
 
-//Расчет тепловой энергии системы
-double getAvgEterm()
-{
-    double Eterm=0;
-    for(int i=0;i<PARTICLENUMBER;i++){
-        Eterm+=molecules[i].getEterm(getVCM());
-    };
-    return Eterm/PARTICLENUMBER;
-}
 
 //Расчет потенциальной энергии системы
 double getAvgEpot()
@@ -297,7 +297,7 @@ void MD()//Основная функция расчетов МД
         }
         //Копирование координат основной ячейки в виртуальные
         filling_coord_virtual();
-        for(int i=0;i<PARTICLENUMBER;i++){
+        for(int i = 0; i < PARTICLENUMBER;i++){
             //Расчет силы и потенциальной энергии частицы
             Vector F = ForceCalc(i);
             if(n!=startingStep){
