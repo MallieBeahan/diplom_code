@@ -9,6 +9,7 @@ void calculateCompressabilityFactor(double tableTemperature){
     Z1 = (P * VOLUME)/(P0 * V0);
     Z2 = (P * VOLUME)/(R * T);
     Z3 = (P * VOLUME)/(R * tableTemperature);
+    Z4 = P/P0;
 }
 
 double tempPotLJ(double r)//Вычисление потенциала Леннарда-Джонса(используем r^2)
