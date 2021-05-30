@@ -5,7 +5,7 @@
 #ifndef NEW_DIPLOM_HELO_FUNCTIONS_H
 #define NEW_DIPLOM_HELO_FUNCTIONS_H
 
-double calculateCompressabilityFactor(double tableTemperature){
+void calculateCompressabilityFactor(double tableTemperature){
     Z1 = (P * VOLUME)/(P0 * V0);
     Z2 = (P * VOLUME)/(R * T);
     Z3 = (P * VOLUME)/(R * tableTemperature);
