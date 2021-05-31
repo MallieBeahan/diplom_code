@@ -1,6 +1,6 @@
 void outputInFile(int i)//Запись данных в файл
 {
-    fprintf(total_data,"%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f\n",T, T_av/(i+1), P, P_av/(i+1), Ekin1, Epot1, E1, LX, LY, LZ, Z1, Z2, Z3, Z4);
+    fprintf(total_data,"%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f;%10.8f\n",T, T_av/(i+1), P, P_av/(i+1), Ekin1, Epot1, E1, LX, LY, LZ, Z1, Z2, Z3, Z4);
     std::cout<<T<<" "<<T_av/(i+1)<<" "<<P<<" "<<P_av/(i+1)<<" "<<Ekin1<<" "<<Epot1<<" "<<E1<<" "<<LX<<" "<<LY<<" "<<LZ<<" "<<Z1<<" "<<Z2<<" "<<Z3<<" "<<Z4<<std::endl;
 }
 
