@@ -328,7 +328,7 @@ void MD()//Основная функция расчетов МД
         P = PressureCalc();//Расчет давления системы
         P_av+=P;
         //Подсчет коэффициента сжимаемости, в скобках указывается табличное значение температуры
-        calculateCompressabilityFactor(3.0, n);
+        calculateCompressabilityFactor(3.0);
         outputInFile(n);//Вывод в файл
     }
 

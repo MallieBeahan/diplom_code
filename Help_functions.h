@@ -5,15 +5,17 @@
 #ifndef NEW_DIPLOM_HELO_FUNCTIONS_H
 #define NEW_DIPLOM_HELO_FUNCTIONS_H
 
-void calculateCompressabilityFactor(double tableTemperature, int n){
-    if (n != startingStep){
-        Z1 = (P * VOLUME)/(P0 * V0);
-        Z2 = (P * VOLUME)/(R * T);
-        Z3 = (P * VOLUME)/(R * tableTemperature);
-        Z4 = 1 + P/P0;
-    }
-    P0 = P;
-    V0 = LX*LY*LZ;
+void calculateCompressabilityFactor(double tableTemperature){
+    //Подсчет объема при нормальных условиях, T0 = 2.7315, P0 = 0.1 (нормальные условия)
+    V0 = (P * VOLUME * T0)/(T * P0);
+    //Подсчет по первой формуле
+    Z1 = (P * VOLUME)/(P0 * V0);
+    //Подсчет по второй формуле с текущей температурой системы
+    Z2 = (P * VOLUME)/(R * T);
+    //Подсчет по третьей формуле с константной температурой из таблицы
+    Z3 = (P * VOLUME)/(R * tableTemperature);
+    //Подсчет по четвертой формуле
+    Z4 = (P  * VOLUME)/(PARTICLENUMBER * KBOLTZMAN * T);
 }
 
 double tempPotLJ(double r)//Вычисление потенциала Леннарда-Джонса(используем r^2)
