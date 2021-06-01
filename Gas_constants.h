@@ -17,7 +17,7 @@ double LZ = NUMKRIST_Z * REBROKR;
 //Объем системы
 double VOLUME = LX * LY * LZ;
 //Н.у для газа
-double P0 = 0.1;
+double P0 = 0.101325;
 //Н.у для газа
 double V0 = 0.0;
 //Н.у для газа
